@@ -1,18 +1,7 @@
 <template>
   <div>
-    <!-- Login/signup bar -->
-    <div v-if="!auth.user">
-      <button @click="auth.login">Login</button>
-      <button @click="auth.signup">Signup</button>
-    </div>
-    <div v-else>
-      <p>Logged in as {{ auth.user.email }}</p>
-      <button @click="logout">Logout</button>
-    </div>
-
-    <hr />
-
-    <h1>Welcome to Dashboard</h1>
+    <h1>Dashboard</h1>
+    <p>TODO: Insert the user dashboard here</p>
     <leaderboard></leaderboard>
     <group></group>
   </div>
@@ -20,13 +9,10 @@
 
 <script lang="ts">
 import { useAuthStore } from '@/stores/auth'
-import Leaderboard from './Leaderboard.vue'
 
+// TODO: must be logged in to see this page
 export default {
-  name: 'AWDashboard',
-  components: {
-    Leaderboard
-  },
+  name: 'AWLDashboard',
   setup() {
     const auth = useAuthStore()
 

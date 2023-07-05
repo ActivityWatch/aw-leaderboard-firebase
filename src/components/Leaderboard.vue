@@ -24,7 +24,7 @@ import { getLeaderboard } from '@/firebase/data'
 import { type ScreenTimeSummary } from '@/types'
 
 export default {
-  name: 'Leaderboard',
+  name: 'AWLLeaderboard',
   setup() {
     const entries = ref([] as ScreenTimeSummary[])
 

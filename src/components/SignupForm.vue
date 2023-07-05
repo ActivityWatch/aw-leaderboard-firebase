@@ -19,7 +19,7 @@ import { useAuthStore } from '@/stores/auth'
 import { useRouter } from 'vue-router'
 
 export default {
-  name: 'SignupForm',
+  name: 'AWLSignupForm',
   setup() {
     const email = ref('')
     const password = ref('')
