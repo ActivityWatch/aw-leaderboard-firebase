@@ -5,7 +5,7 @@
   <div class="container">
     <router-view />
   </div>
-  <div class="container-float">
+  <div class="container">
     <AWLFooter />
   </div>
 </template>

@@ -1,9 +1,9 @@
 <template>
-  <div>
+  <header>
     <nav>
       <a href="/">
-        <img src="@/assets/logo.svg" alt="Logo" height="30" />
-        ActivityWatch
+        <img src="@/assets/media/logo/logo.png" alt="Logo" height="30" class="me-2" />
+        ActivityWatch Leaderboard
       </a>
       <div class="pull-right float-right">
         <ul v-if="user">
@@ -13,7 +13,7 @@
           </li>
         </ul>
         <ul v-else>
-          <li>
+          <li class="mx-3">
             <router-link to="/login">Login</router-link>
           </li>
           <li>
@@ -22,7 +22,7 @@
         </ul>
       </div>
     </nav>
-  </div>
+  </header>
 </template>
 
 <script lang="ts">
@@ -50,6 +50,10 @@ export default {
 </script>
 
 <style scoped>
+header {
+  margin-bottom: 1em;
+}
+
 nav {
   border-bottom: 1px solid #eee;
   padding: 0.5em 0em;
