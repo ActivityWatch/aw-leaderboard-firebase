@@ -1,7 +1,3 @@
-<script setup lang="ts">
-import TheWelcome from '../components/TheWelcome.vue'
-</script>
-
 <template>
   <main>
     <h1 class="my-3">Welcome to the ActivityWatch Leaderboard</h1>
