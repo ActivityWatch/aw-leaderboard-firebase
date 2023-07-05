@@ -1,6 +1,18 @@
 # aw-leaderboard
 
-This template should help get you started developing with Vue 3 in Vite.
+[![Test](https://github.com/ActivityWatch/aw-leaderboard-firebase/actions/workflows/test.yml/badge.svg)](https://github.com/ActivityWatch/aw-leaderboard-firebase/actions/workflows/test.yml)
+
+Hosted at https://aw-leaderboard.web.app/ (WIP!)
+
+A prototype of a public leaderboard for screentime data collected by ActivityWatch.
+
+It uses Vue 3, Firebase (for auth/storage), and Bootstrap.
+
+The goal was to make a leaderboard app that complements the local-first nature of ActivityWatch with basic social features like public leaderboards or sharing specific screentime data privately with a group.
+
+---
+
+The below was automatically generated on repo initialization.
 
 ## Recommended IDE Setup
 
