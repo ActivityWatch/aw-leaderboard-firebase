@@ -30,7 +30,7 @@ import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 
 export default {
-  name: 'AWLMenu',
+  name: 'AWLHeader',
   setup() {
     const router = useRouter()
     const { user, logout } = useAuthStore()

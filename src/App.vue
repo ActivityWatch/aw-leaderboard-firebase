@@ -1,19 +1,24 @@
 <template>
   <div class="container-float">
-    <AWLMenu />
+    <AWLHeader />
   </div>
   <div class="container">
     <router-view />
   </div>
+  <div class="container-float">
+    <AWLFooter />
+  </div>
 </template>
 
 <script lang="ts">
-import AWLMenu from '@/components/Menu.vue'
+import AWLHeader from '@/components/Header.vue'
+import AWLFooter from '@/components/Footer.vue'
 
 export default {
   name: 'App',
   components: {
-    AWLMenu
+    AWLHeader,
+    AWLFooter
   }
 }
 </script>
