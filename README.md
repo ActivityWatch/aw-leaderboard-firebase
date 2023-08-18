@@ -34,7 +34,12 @@ If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has a
 See [Vite Configuration Reference](https://vitejs.dev/config/).
 
 ## Project Setup
+### Clone the Repo and its submodules
+```sh
+git clone --recurse-submodules https://github.com/ActivityWatch/aw-leaderboard-firebase
+```
 
+### Install the dependencies
 ```sh
 npm install
 ```
