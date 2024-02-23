@@ -1,4 +1,5 @@
 <template>
+  <AWLHeader />
   <main>
     <div style="max-width: 50em; margin: 5em auto">
       <h1 class="mb-3 mt-5">Welcome to the ActivityWatch Leaderboard</h1>
@@ -56,3 +57,13 @@
     </ul>
   </main>
 </template>
+
+<script lang="ts">
+import AWLHeader from '@/components/Header.vue'
+export default {
+  name: 'AWLHomeView',
+  components: {
+    AWLHeader
+  }
+}
+</script>

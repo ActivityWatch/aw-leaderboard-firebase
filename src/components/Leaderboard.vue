@@ -1,4 +1,5 @@
 <template>
+  <AWLHeader />
   <div>
     <h1>Leaderboard</h1>
     <table>
@@ -22,6 +23,7 @@
 import { ref, onMounted } from 'vue'
 import { getLeaderboard } from '@/firebase/data'
 import { type ScreenTimeSummary } from '@/types'
+import AWLHeader from '@/components/Header.vue'
 
 export default {
   name: 'AWLLeaderboard',
@@ -39,6 +41,9 @@ export default {
     })
 
     return { entries }
+  },
+  components: {
+    AWLHeader
   }
 }
 </script>

@@ -1,4 +1,5 @@
 <template>
+  <AWLHeader />
   <div class="container">
     <div>
       <h1>About this website</h1>
@@ -27,3 +28,13 @@
     </div>
   </div>
 </template>
+
+<script lang="ts">
+import AWLHeader from '@/components/Header.vue'
+export default {
+  name: 'AWLAboutView',
+  components: {
+    AWLHeader
+  }
+}
+</script>
