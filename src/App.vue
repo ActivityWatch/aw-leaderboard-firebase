@@ -1,6 +1,6 @@
 <template>
   <div class="container-float">
-    <AWLHeader />
+    <AWLHeader v-if="showHeader" />
   </div>
   <div class="container">
     <router-view />
@@ -19,6 +19,11 @@ export default {
   components: {
     AWLHeader,
     AWLFooter
+  },
+  computed: {
+    showHeader() {
+      return this.$route.name === 'Login' || this.$route.name === 'Signup'
+    }
   }
 }
 </script>
