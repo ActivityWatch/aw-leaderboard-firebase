@@ -10,6 +10,7 @@ export const useAuthStore = defineStore('auth', {
   state: () => ({
     user: null as User | null
   }),
+  persist: true,
   getters: {
     isAuthenticated: (state) => Boolean(state.user)
   },
@@ -24,6 +25,7 @@ export const useAuthStore = defineStore('auth', {
     },
     async logout() {
       await auth.signOut()
+      await this.$reset()
       this.user = null
     }
   }
