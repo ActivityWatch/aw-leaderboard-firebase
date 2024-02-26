@@ -63,7 +63,7 @@ export async function getPublicScreenTimeData(
   since: Date | null = null
 ): Promise<{ [key: number]: ScreenTimeSummary[] } | null> {
   // Returns all public screentime data, for all users, since `since`, aggregated by user
-  let q = query(
+  const q = query(
     collection(db, 'screentime'),
     where('public', '==', true),
     where('date', '>=', since || new Date('1900-1-1'))
