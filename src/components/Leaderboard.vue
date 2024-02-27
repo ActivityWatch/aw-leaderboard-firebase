@@ -12,7 +12,7 @@
       <tbody>
         <tr v-for="entry in entries" :key="entry.userId">
           <td>{{ entry.userId }}</td>
-          <td>{{ entry.total }}</td>
+          <td>{{ formatTime(entry.total) }}</td>
         </tr>
       </tbody>
     </table>
@@ -40,7 +40,14 @@ export default {
       }
     })
 
-    return { entries }
+    // Helper method to format time in minutes and hours
+    const formatTime = (milliseconds: number) => {
+      const hours = Math.floor(milliseconds / 60000)
+      const minutes = milliseconds % 60
+      return `${hours}h ${minutes}m`
+    }
+
+    return { entries, formatTime }
   },
   components: {
     AWLHeader
