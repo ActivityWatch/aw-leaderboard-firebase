@@ -88,5 +88,11 @@ export async function getPublicScreenTimeData(
 export async function getLeaderboard(): Promise<ScreenTimeSummary[]> {
   // Returns the top 50 users by screen time in the current week
   // This function could be cached for performance (underlying data changes ~hourly)
-  return []
+  const dbRef = collection(db, 'leaderboard')
+  const snapshot = await getDocs(dbRef)
+  const leaderboard: ScreenTimeSummary[] = []
+  snapshot.forEach((doc: any) => {
+    leaderboard.push(doc.data())
+  })
+  return leaderboard
 }
