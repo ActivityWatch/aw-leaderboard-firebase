@@ -8,7 +8,7 @@ import SignupForm from '../SignupForm.vue'
 describe('SignupForm', () => {
   it('renders properly', () => {
     const pinia = createPinia() // Create a Pinia instance
-    const wrapper = mount(SignupForm, { 
+    const wrapper = mount(SignupForm, {
       props: { msg: 'Signup Vitest' },
       global: {
         plugins: [pinia] // Use the Pinia instance as a plugin
