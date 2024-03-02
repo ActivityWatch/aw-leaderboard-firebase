@@ -1,5 +1,5 @@
 export interface Event {
-  timestamp: Date
+  timestamp: number // Unix timestamp
   duration: number
   data: any
 }
@@ -7,15 +7,16 @@ export interface Event {
 // Screentime is stored in day-level objects that have
 // their `events` appended when new data is added.
 export interface ScreenTimeData {
-  userId: number
+  userId: string
   public: boolean
-  date: Date
+  date: string
   events: Event[]
 }
 
 // Same as above, but with events aggregated
 export interface ScreenTimeSummary {
-  userId: number
+  userId: string
   total: number
+  date: string
   category_totals: { [key: string]: number }
 }

@@ -19,7 +19,7 @@ import {
 } from 'firebase/firestore/lite'
 import type { ScreenTimeData, ScreenTimeSummary } from '@/types'
 
-function dataToSummary(data: ScreenTimeData): ScreenTimeSummary {
+export function dataToSummary(data: ScreenTimeData): ScreenTimeSummary {
   const total = data.events.reduce((acc, event) => acc + event.duration, 0)
   const category_totals: { [key: string]: number } = {}
   data.events.forEach((event) => {
@@ -32,6 +32,7 @@ function dataToSummary(data: ScreenTimeData): ScreenTimeSummary {
   return {
     userId: data.userId,
     total,
+    date: data.date,
     category_totals
   }
 }
@@ -49,11 +50,11 @@ export async function addScreenTimeData(userId: number, data: ScreenTimeData) {
   }
 }
 
-export async function getScreenTimeData(userId: number): Promise<ScreenTimeData[] | null> {
+export async function getScreenTimeData(userId: number): Promise<ScreenTimeData | null> {
   const docRef = doc(db, 'screentime', userId.toString())
   const data = await getDoc(docRef)
   if (data.exists()) {
-    return data.data() as ScreenTimeData[]
+    return data.data() as ScreenTimeData
   } else {
     return null
   }
@@ -72,7 +73,7 @@ export async function getPublicScreenTimeData(
   if (snapshot.empty) {
     return null
   }
-  const summaries: { [key: number]: ScreenTimeSummary[] } = {}
+  const summaries: { [key: string]: ScreenTimeSummary[] } = {} // Fix: Change the index type to string
   snapshot.forEach((doc: any) => {
     const screentimedata = doc.data() as ScreenTimeData
     const userId = screentimedata.userId
