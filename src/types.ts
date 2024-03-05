@@ -20,3 +20,14 @@ export interface ScreenTimeSummary {
   date: string
   category_totals: { [key: string]: number }
 }
+
+export interface ChartDataset {
+  label: string
+  data: number[]
+  backgroundColor: string
+}
+
+export interface ChartData {
+  labels: string[]
+  datasets: ChartDataset[]
+}
