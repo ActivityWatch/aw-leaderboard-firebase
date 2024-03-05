@@ -7,25 +7,22 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { useAuthStore } from '@/stores/auth'
 import AWLHeader from '@/components/Header.vue'
 import router from '@/router'
+import { defineComponent } from 'vue'
 
-// must be logged in to see this page
-export default {
-  name: 'AWLDashboard',
-  setup() {
-    const {user, isAuthenticated, logout} = useAuthStore()
+const { user, isAuthenticated, logout } = useAuthStore()
 
-    if (!isAuthenticated) {
-      logout()
-      router.push({ name: 'Login' })
-    }
-    return { user}
-  },
+if (!isAuthenticated) {
+  logout()
+  router.push({ name: 'Login' })
+}
+
+defineComponent({
   components: {
     AWLHeader
   }
-}
+})
 </script>
