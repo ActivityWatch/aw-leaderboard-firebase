@@ -25,7 +25,7 @@ export const useAuthStore = defineStore('auth', {
     },
     async logout() {
       await auth.signOut()
-      await this.$reset()
+      this.$reset()
       this.user = null
     }
   }
