@@ -50,14 +50,18 @@ export async function addScreenTimeData(userId: number, data: ScreenTimeData) {
   }
 }
 
-export async function getScreenTimeData(userId: number): Promise<ScreenTimeData | null> {
-  const docRef = doc(db, 'screentime', userId.toString())
-  const data = await getDoc(docRef)
-  if (data.exists()) {
-    return data.data() as ScreenTimeData
-  } else {
+export async function getScreenTimeData(userId: string): Promise<ScreenTimeData[] | null> {
+  const colPath = `screentime/${userId}/${userId}`
+  const colRef = collection(db, colPath)
+  const snapshot = await getDocs(colRef)
+  if (snapshot.empty) {
     return null
   }
+  const data = snapshot.docs.map((doc) => doc.data())
+  if (!data) {
+    return null
+  }
+  return data as ScreenTimeData[]
 }
 
 export async function getPublicScreenTimeData(
@@ -73,7 +77,7 @@ export async function getPublicScreenTimeData(
   if (snapshot.empty) {
     return null
   }
-  const summaries: { [key: string]: ScreenTimeSummary[] } = {} // Fix: Change the index type to string
+  const summaries: { [key: string]: ScreenTimeSummary[] } = {}
   snapshot.forEach((doc: any) => {
     const screentimedata = doc.data() as ScreenTimeData
     const userId = screentimedata.userId
