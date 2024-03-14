@@ -34,13 +34,9 @@ const chartOptions = {
     legend: {
       display: true
     },
-    bar: {
-      barPercentage: 1
-    }
   },
   scales: {
     x: {
-      categoryPercentage: 1,
       stacked: true
     },
     y: {
