@@ -24,17 +24,18 @@ import {
   CategoryScale,
   LinearScale
 } from 'chart.js'
+import autocolors from 'chartjs-plugin-autocolors';
 import type { ChartDataset } from '@/types'
 import { defineComponent, ref} from 'vue'
 
-ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
+ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, autocolors)
 
 const chartOptions = {
   responsive: true,
   plugins: {
     legend: {
       display: true
-    }
+    },
   },
   scales: {
     x: {
@@ -52,18 +53,7 @@ const chartData = ref({
   labels: [] as string[],
   datasets: [] as ChartDataset[]
 })
-const colors = [
-  'rgba(255, 99, 132, 0.8)',
-  'rgba(54, 162, 235, 0.8)',
-  'rgba(255, 206, 86, 0.8)',
-  'rgba(75, 192, 192, 0.8)',
-  'rgba(153, 102, 255, 0.8)',
-  'rgba(255, 159, 64, 0.8)',
-  'rgba(255, 99, 132, 0.8)',
-  'rgba(54, 162, 235, 0.8)',
-  'rgba(255, 206, 86, 0.8)',
-  'rgba(75, 192, 192, 0.8)'
-]
+
 fetchSummary()
 const summaries = summary
 const uniqueDates = Array.from(new Set(summaries?.map((summary) => summary?.date)))
@@ -95,8 +85,7 @@ summaries?.forEach((summary) => {
 chartData.value.datasets = uniqueCategories.map((category, index) => {
   return {
     label: category,
-    data: categoryValues[category],
-    backgroundColor: colors[index % colors.length]
+    data: categoryValues[category]
   }
 })
 
