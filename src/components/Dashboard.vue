@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <AWLHeader />
   <div>
@@ -24,7 +25,7 @@ import {
   LinearScale
 } from 'chart.js'
 import type { ChartDataset } from '@/types'
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref} from 'vue'
 
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 
@@ -33,7 +34,7 @@ const chartOptions = {
   plugins: {
     legend: {
       display: true
-    },
+    }
   },
   scales: {
     x: {
@@ -46,30 +47,25 @@ const chartOptions = {
 }
 
 const { user, isAuthenticated, logout } = useAuthStore()
-const { getSummaries, fetchSummary, summaryExists } = useScreenTimeStore()
+const { fetchSummary, summary } = useScreenTimeStore()
 const chartData = ref({
   labels: [] as string[],
   datasets: [] as ChartDataset[]
 })
-
-fetchSummary()
-if (!summaryExists) {
-  console.error('No summary found')
-}
-const summaries = getSummaries
-
 const colors = [
-  'rgba(255, 99, 132, 0.2)',
-  'rgba(54, 162, 235, 0.2)',
-  'rgba(255, 206, 86, 0.2)',
-  'rgba(75, 192, 192, 0.2)',
-  'rgba(153, 102, 255, 0.2)',
-  'rgba(255, 159, 64, 0.2)',
-  'rgba(255, 99, 132, 0.2)',
-  'rgba(54, 162, 235, 0.2)',
-  'rgba(255, 206, 86, 0.2)',
-  'rgba(75, 192, 192, 0.2)',
+  'rgba(255, 99, 132, 0.8)',
+  'rgba(54, 162, 235, 0.8)',
+  'rgba(255, 206, 86, 0.8)',
+  'rgba(75, 192, 192, 0.8)',
+  'rgba(153, 102, 255, 0.8)',
+  'rgba(255, 159, 64, 0.8)',
+  'rgba(255, 99, 132, 0.8)',
+  'rgba(54, 162, 235, 0.8)',
+  'rgba(255, 206, 86, 0.8)',
+  'rgba(75, 192, 192, 0.8)'
 ]
+fetchSummary()
+const summaries = summary
 const uniqueDates = Array.from(new Set(summaries?.map((summary) => summary?.date)))
 const uniqueDatesSorted = uniqueDates.sort((a, b) => {
   const dateA = new Date(a)
@@ -83,7 +79,6 @@ summaries?.forEach((summary) => {
   }
 })
 const uniqueCategories = Array.from(uniqueCategoriesSet)
-
 chartData.value.labels = uniqueDatesSorted
 const categoryValues: { [key: string]: number[] } = {}
 
@@ -101,10 +96,10 @@ chartData.value.datasets = uniqueCategories.map((category, index) => {
   return {
     label: category,
     data: categoryValues[category],
-    backgroundColor: colors[index%colors.length]
+    backgroundColor: colors[index % colors.length]
   }
 })
-console.log(chartData.value)
+
 if (!isAuthenticated) {
   logout()
   router.push({ name: 'Login' })
@@ -123,7 +118,7 @@ make the charts responsive
 */
 #chart {
   height: 50% !important;
-  width: 90%  !important;
+  width: 90% !important;
   margin: 0 0 0 0;
   padding: 0 0 0 0;
 }

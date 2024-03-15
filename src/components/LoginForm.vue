@@ -21,6 +21,7 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
+import { useScreenTimeStore } from '@/stores/screentime'
 
 export default {
   name: 'AWLLoginForm',
@@ -28,8 +29,13 @@ export default {
     const email = ref('')
     const password = ref('')
     const auth = useAuthStore()
+    const userTime = useScreenTimeStore()
     const router = useRouter()
-
+    if (auth.isAuthenticated) {
+      router.push({ name: 'Dashboard' })
+    } else {
+      userTime.resetStore()
+    }
     const login = async () => {
       try {
         await auth.login(email.value, password.value)
