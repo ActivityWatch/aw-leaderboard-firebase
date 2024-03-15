@@ -24,7 +24,6 @@ export interface ScreenTimeSummary {
 export interface ChartDataset {
   label: string
   data: number[]
-  backgroundColor: string
 }
 
 export interface ChartData {
