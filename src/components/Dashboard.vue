@@ -4,7 +4,8 @@
   <div>
     <h1>Dashboard</h1>
     <p v-if="user">Logged in as {{ user.email }}</p>
-    <StackedBarChart :summary="summaries" />
+    <StackedBarChart id="chart" :summary="summaries" />
+    <PieChart id="pie" :summaries="summaries" />
   </div>
 </template>
 
@@ -14,6 +15,7 @@ import { useScreenTimeStore } from '@/stores/screentime'
 import AWLHeader from '@/components/Header.vue'
 import router from '@/router'
 import StackedBarChart from './StackedBarChart.vue'
+import PieChart from './PieChart.vue'
 
 const { user, isAuthenticated, logout } = useAuthStore()
 const { fetchSummary, summary } = useScreenTimeStore()
@@ -24,17 +26,23 @@ if (!isAuthenticated) {
   logout()
   router.push({ name: 'Login' })
 }
-
 </script>
 
-<style>
-/* TODO: 
-make the charts responsive
-*/
+<style scoped>
+/* TODO: Better styling, maybe after switching to tailwind */
+div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 #chart {
-  height: 50% !important;
-  width: 90% !important;
-  margin: 0 0 0 0;
-  padding: 0 0 0 0;
+  padding: 16px;
+}
+#pie {
+  padding: 16px;
+  width: 50%;
+  height: 50%;
 }
 </style>
