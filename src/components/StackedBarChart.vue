@@ -4,18 +4,18 @@
 
 <script lang="ts" setup>
 import {
-	Chart as ChartJS,
-	Title,
-	Tooltip,
-	Legend,
-	BarElement,
-	CategoryScale,
-	LinearScale
-  } from 'chart.js'
-import autocolors from 'chartjs-plugin-autocolors';
+  Chart as ChartJS,
+  Title,
+  Tooltip,
+  Legend,
+  BarElement,
+  CategoryScale,
+  LinearScale
+} from 'chart.js'
+import autocolors from 'chartjs-plugin-autocolors'
 import { Bar } from 'vue-chartjs'
 import type { ChartDataset } from '@/types'
-import type { ScreenTimeSummary } from '@/types';
+import type { ScreenTimeSummary } from '@/types'
 import { ref } from 'vue'
 
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, autocolors)
@@ -25,7 +25,7 @@ const chartOptions = {
   plugins: {
     legend: {
       display: true
-    },
+    }
   },
   scales: {
     x: {
@@ -44,7 +44,7 @@ const chartData = ref({
 
 const props = defineProps({
   summary: {
-    type: Array as () => ScreenTimeSummary[] |null,
+    type: Array as () => ScreenTimeSummary[] | null,
     required: true
   }
 })
