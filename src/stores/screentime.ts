@@ -25,17 +25,17 @@ export const useScreenTimeStore = defineStore('screentime', {
       onSnapshot(colRef, (snapshot) => {
         const changes = snapshot.docChanges()
         if (changes.length === 0) return
-          console.log('updated screenTimeData')
-          getScreenTimeData(userId).then((data) => {
-            console.log('data', data)
-            this.screenTimeData = data
-            if (this.screenTimeData) {
-              this.summary = this.screenTimeData.map((data) => dataToSummary(data))
-            } else {
-              this.summary = null
-            }
-          })
+        console.log('updated screenTimeData')
+        getScreenTimeData(userId).then((data) => {
+          console.log('data', data)
+          this.screenTimeData = data
+          if (this.screenTimeData) {
+            this.summary = this.screenTimeData.map((data) => dataToSummary(data))
+          } else {
+            this.summary = null
+          }
         })
+      })
     },
     async resetStore() {
       this.screenTimeData = null
