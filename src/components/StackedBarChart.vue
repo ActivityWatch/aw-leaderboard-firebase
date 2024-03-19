@@ -48,16 +48,16 @@ const props = defineProps({
     required: true
   }
 })
-const summaries = props.summary
+const summaries = ref(props.summary)
 
-const uniqueDates = Array.from(new Set(summaries?.map((summary) => summary?.date)))
+const uniqueDates = Array.from(new Set(summaries.value?.map((summary) => summary?.date)))
 const uniqueDatesSorted = uniqueDates.sort((a, b) => {
   const dateA = new Date(a)
   const dateB = new Date(b)
   return dateA.getTime() - dateB.getTime()
 })
 const uniqueCategoriesSet: Set<string> = new Set()
-summaries?.forEach((summary) => {
+summaries.value?.forEach((summary) => {
   for (const category in summary?.category_totals) {
     uniqueCategoriesSet.add(category)
   }
@@ -70,7 +70,7 @@ uniqueCategories.forEach((category) => {
   categoryValues[category] = new Array(uniqueDatesSorted.length).fill(0)
 })
 
-summaries?.forEach((summary) => {
+summaries.value?.forEach((summary) => {
   for (const category in summary?.category_totals) {
     const dateIndex = uniqueDatesSorted.indexOf(summary?.date)
     categoryValues[category][dateIndex] = summary?.category_totals[category]
