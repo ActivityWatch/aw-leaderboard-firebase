@@ -33,7 +33,7 @@ const chartOptions = {
   plugins: {
     autocolors: {
       enabled: true,
-      mode: 'dataset' as AutocolorsOptions['mode'],
+      mode: 'data' as AutocolorsOptions['mode'],
     }
   }
 }
