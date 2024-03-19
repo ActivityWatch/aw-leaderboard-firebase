@@ -11,6 +11,7 @@ import { Chart as ChartJS, ArcElement, Tooltip, Title, plugins } from 'chart.js'
 import type { ChartDataset } from '@/types'
 import type { ScreenTimeSummary } from '@/types'
 import { ref } from 'vue'
+import type { AutocolorsOptions } from 'chartjs-plugin-autocolors'
 ChartJS.register(autocolors, ArcElement, Tooltip, Title)
 
 const props = defineProps({
@@ -32,7 +33,7 @@ const chartOptions = {
   plugins: {
     autocolors: {
       enabled: true,
-      mode: "data"
+      mode: 'dataset' as AutocolorsOptions['mode'],
     }
   }
 }
