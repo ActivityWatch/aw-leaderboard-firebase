@@ -32,7 +32,7 @@ const chartOptions = {
   plugins: {
     autocolors: {
       enabled: true,
-      mode: 'data'
+      mode: "data"
     }
   }
 }
