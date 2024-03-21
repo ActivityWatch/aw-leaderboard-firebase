@@ -30,16 +30,15 @@ export const useScreenTimeStore = defineStore('screentime', {
             console.log('data', data)
             this.screenTimeData = data
             if (this.screenTimeData) {
-              this.summary = this.screenTimeData.map((data) => dataToSummary(data))
+              this.screenTimeData.map((data) => dataToSummary(data))
             } else {
-              this.summary = null
+              this.screenTimeData = null
             }
           })
         })
     },
     async resetStore() {
       this.screenTimeData = null
-      this.summary = null
       this.$reset()
     }
   }

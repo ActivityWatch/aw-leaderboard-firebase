@@ -21,20 +21,21 @@
 
 <script lang="ts">
 import { ref, onMounted } from 'vue'
-import { getLeaderboard } from '@/firebase/data'
+import { useLeaderboardStore } from '@/stores/leaderboard'
 import { type ScreenTimeSummary } from '@/types'
 import AWLHeader from '@/components/Header.vue'
 
 export default {
   name: 'AWLLeaderboard',
   setup() {
-    const entries = ref([] as ScreenTimeSummary[])
+    const entries = ref([] as ScreenTimeSummary[] | null)
 
     onMounted(async () => {
       try {
-        const data = (await getLeaderboard()) as ScreenTimeSummary[]
-        data.sort((a, b) => b.total - a.total)
-        entries.value = data
+        const { fetchLeaderboardData, leaderboardData} = useLeaderboardStore()
+        fetchLeaderboardData()
+        leaderboardData?.sort((a, b) => b.total - a.total)
+        entries.value = leaderboardData
       } catch (error) {
         console.error(error)
       }
