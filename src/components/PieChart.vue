@@ -7,11 +7,11 @@
 <script lang="ts" setup>
 import { Pie } from 'vue-chartjs'
 import autocolors from 'chartjs-plugin-autocolors'
-import { Chart as ChartJS, ArcElement, Tooltip, Title, plugins } from 'chart.js'
+import { Chart as ChartJS, ArcElement, Tooltip, Title } from 'chart.js'
 import type { ChartDataset } from '@/types'
 import type { ScreenTimeSummary } from '@/types'
 import { ref } from 'vue'
-import type { AutocolorsOptions } from 'chartjs-plugin-autocolors'
+
 ChartJS.register(autocolors, ArcElement, Tooltip, Title)
 
 const props = defineProps({
@@ -33,7 +33,7 @@ const chartOptions = {
   plugins: {
     autocolors: {
       enabled: true,
-      mode: 'data' as AutocolorsOptions['mode'],
+      mode: 'data' as const
     }
   }
 }
