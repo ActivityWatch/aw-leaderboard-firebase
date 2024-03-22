@@ -32,7 +32,7 @@ export default {
 
     onMounted(async () => {
       try {
-        const { fetchLeaderboardData, leaderboardData} = useLeaderboardStore()
+        const { fetchLeaderboardData, leaderboardData } = useLeaderboardStore()
         fetchLeaderboardData()
         leaderboardData?.sort((a, b) => b.total - a.total)
         entries.value = leaderboardData
