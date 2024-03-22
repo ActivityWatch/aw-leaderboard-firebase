@@ -56,6 +56,10 @@ const uniqueDatesSorted = uniqueDates.sort((a, b) => {
   const dateB = new Date(b)
   return dateA.getTime() - dateB.getTime()
 })
+const uniqueWeekDays = uniqueDatesSorted.map((date) => {
+  const dateObj = new Date(date)
+  return dateObj.toLocaleDateString('en-US', { weekday: 'short' })
+})
 const uniqueCategoriesSet: Set<string> = new Set()
 summaries.value?.forEach((summary) => {
   for (const category in summary?.category_totals) {
@@ -63,7 +67,7 @@ summaries.value?.forEach((summary) => {
   }
 })
 const uniqueCategories = Array.from(uniqueCategoriesSet)
-chartData.value.labels = uniqueDatesSorted
+chartData.value.labels = uniqueWeekDays
 const categoryValues: { [key: string]: number[] } = {}
 
 uniqueCategories.forEach((category) => {
