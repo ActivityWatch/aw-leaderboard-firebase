@@ -1,7 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { createPinia } from 'pinia' // Import the createPinia function from the 'pinia' package
 
-
 import { mount } from '@vue/test-utils'
 import SignupForm from '../SignupForm.vue'
 
