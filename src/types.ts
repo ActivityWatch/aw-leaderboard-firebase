@@ -18,7 +18,7 @@ export interface ScreenTimeSummary {
   userId: string
   total: number
   date: string
-  category_totals: { [key: string]: number }
+  categoryTotals: { [key: string]: number }
 }
 
 export interface ChartDataset {
