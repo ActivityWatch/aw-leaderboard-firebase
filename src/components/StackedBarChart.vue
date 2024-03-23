@@ -62,7 +62,7 @@ const uniqueWeekDays = uniqueDatesSorted.map((date) => {
 })
 const uniqueCategoriesSet: Set<string> = new Set()
 summaries.value?.forEach((summary) => {
-  for (const category in summary?.category_totals) {
+  for (const category in summary?.categoryTotals) {
     uniqueCategoriesSet.add(category)
   }
 })
@@ -75,9 +75,9 @@ uniqueCategories.forEach((category) => {
 })
 
 summaries.value?.forEach((summary) => {
-  for (const category in summary?.category_totals) {
+  for (const category in summary?.categoryTotals) {
     const dateIndex = uniqueDatesSorted.indexOf(summary?.date)
-    categoryValues[category][dateIndex] = summary?.category_totals[category]
+    categoryValues[category][dateIndex] = summary?.categoryTotals[category]
   }
 })
 chartData.value.datasets = uniqueCategories.map((category) => {

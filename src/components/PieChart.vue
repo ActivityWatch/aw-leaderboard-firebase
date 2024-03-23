@@ -40,7 +40,7 @@ const chartOptions = {
 const summaries = ref(props.summaries)
 const uniqueCategoriesSet: Set<string> = new Set()
 summaries.value?.forEach((summary) => {
-  for (const category in summary.category_totals) {
+  for (const category in summary.categoryTotals) {
     uniqueCategoriesSet.add(category)
   }
 })
@@ -48,7 +48,7 @@ const uniqueCategories = Array.from(uniqueCategoriesSet)
 const categoryTotals: number[] = []
 for (const category of uniqueCategories) {
   const categoryTotal = summaries.value?.reduce((acc, summary) => {
-    return acc + (summary.category_totals[category] || 0)
+    return acc + (summary.categoryTotals[category] || 0)
   }, 0)
   categoryTotals.push(categoryTotal || 0)
 }
