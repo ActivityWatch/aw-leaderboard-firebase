@@ -21,19 +21,19 @@ import type { ScreenTimeData, ScreenTimeSummary } from '@/types'
 
 export function dataToSummary(data: ScreenTimeData): ScreenTimeSummary {
   const total = data.events.reduce((acc, event) => acc + event.duration, 0)
-  const category_totals: { [key: string]: number } = {}
+  const categoryTotals: { [key: string]: number } = {}
   data.events.forEach((event) => {
     const category = event.data.category
-    if (!category_totals[category]) {
-      category_totals[category] = 0
+    if (!categoryTotals[category]) {
+      categoryTotals[category] = 0
     }
-    category_totals[category] += event.duration
+    categoryTotals[category] += event.duration
   })
   return {
     userId: data.userId,
     total,
     date: data.date,
-    category_totals
+    categoryTotals
   }
 }
 
