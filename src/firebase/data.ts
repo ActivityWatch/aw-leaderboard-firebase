@@ -50,10 +50,14 @@ export async function addScreenTimeData(userId: number, data: ScreenTimeData) {
   }
 }
 
-export async function getScreenTimeData(userId: string): Promise<ScreenTimeData[] | null> {
-  const colPath = `screentime/${userId}/${userId}`
-  const colRef = collection(db, colPath)
-  const snapshot = await getDocs(colRef)
+export async function getScreenTimeData(userId: string, since: Date | null = null, _public: Boolean = true): Promise<ScreenTimeData[] | null> {
+  const q = query(
+    collection(db, 'screentime/' + userId + '/' + userId),
+    // where('date', '>=', since || new Date('1900-1-1')),
+    where('public', '==', _public)
+  )
+
+  const snapshot = await getDocs(q)
   if (snapshot.empty) {
     return null
   }
