@@ -23,7 +23,6 @@ fetchSummary()
 const summaries = summary
 
 if (!isAuthenticated) {
-  logout()
   router.push({ name: 'Login' })
 }
 </script>
