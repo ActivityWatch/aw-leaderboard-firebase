@@ -24,12 +24,17 @@ import { ref, onMounted } from 'vue'
 import { useLeaderboardStore } from '@/stores/leaderboard'
 import { type ScreenTimeSummary } from '@/types'
 import AWLHeader from '@/components/Header.vue'
+import { useAuthStore } from '@/stores/auth'
+import router from '@/router'
 
 export default {
   name: 'AWLLeaderboard',
   setup() {
     const entries = ref([] as ScreenTimeSummary[] | null)
-
+    const { isAuthenticated } = useAuthStore()
+    if (!isAuthenticated) {
+      router.push({ name: 'Login' })
+    }
     onMounted(async () => {
       try {
         const { fetchLeaderboardData, leaderboardData} = useLeaderboardStore()
