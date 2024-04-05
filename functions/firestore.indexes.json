@@ -1,0 +1,19 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "O2TIwM6QoIhCBbcCCUggf0c7xMJ3",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "public",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "date",
+          "order": "ASCENDING"
+        }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}
