@@ -202,7 +202,7 @@ exports.onUploadData = onObjectFinalized(
         category: category,
       };
 
-      let date = new Date(event.timestamp).toISOString().split("T")[0];
+      let date = new Date(event.timestamp).toLocaleDateString("en-GB");
       date = date.replace(/\//g, "-");
       if (dateMap.has(date)) {
         dateMap.get(date)?.push(event);
