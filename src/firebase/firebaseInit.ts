@@ -5,14 +5,14 @@ import { getAnalytics } from 'firebase/analytics'
 
 // Your firebase configuration
 const firebaseConfig = {
-  apiKey: 'AIzaSyAo8W-kYsF0c0SlJa6dnX_80buvWKgFPXY',
-  authDomain: 'aw-leaderboard.firebaseapp.com',
-  projectId: 'aw-leaderboard',
-  storageBucket: 'aw-leaderboard.appspot.com',
-  messagingSenderId: '1026556434182',
-  appId: '1:1026556434182:web:ac634f38e5a6fe0baab087',
-  measurementId: 'G-DZC0Z6GGEZ'
-}
+  apiKey: "AIzaSyA4M_ASCxrRPSzAnfOZ4gykuceoxf8ZYTY",
+  authDomain: "aw-mockup.firebaseapp.com",
+  projectId: "aw-mockup",
+  storageBucket: "aw-mockup.appspot.com",
+  messagingSenderId: "815662035897",
+  appId: "1:815662035897:web:efea41a0c4ca9843c0bc68",
+  measurementId: "G-Z5QBXYENH0"
+};
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig)

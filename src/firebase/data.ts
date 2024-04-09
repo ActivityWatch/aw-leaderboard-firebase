@@ -15,9 +15,12 @@ import {
   getDoc,
   getDocs,
   query,
-  where
+  where,
+  limit,
+  orderBy
 } from 'firebase/firestore/lite'
 import type { ScreenTimeData, ScreenTimeSummary } from '@/types'
+import { getFunctions, httpsCallable } from 'firebase/functions';
 
 export function dataToSummary(data: ScreenTimeData): ScreenTimeSummary {
   const total = data.events.reduce((acc, event) => acc + event.duration, 0)
@@ -96,12 +99,23 @@ export async function getPublicScreenTimeData(
 
 export async function getLeaderboard(): Promise<ScreenTimeSummary[]> {
   // Returns the top 50 users by screen time in the current week
-  // This function could be cached for performance (underlying data changes ~hourly)
-  const dbRef = collection(db, 'leaderboard')
-  const snapshot = await getDocs(dbRef)
-  const leaderboard: ScreenTimeSummary[] = []
-  snapshot.forEach((doc: any) => {
-    leaderboard.push(doc.data())
-  })
-  return leaderboard
+  // TODO:This function could be cached for performance (underlying data changes ~hourly)
+  const q = query(
+    collection(db, 'leaderboard'),
+    orderBy('total', 'desc'),
+    limit(50)
+  )
+  const snapshot = await getDocs(q)
+  return snapshot.docs.map((doc) => doc.data() as ScreenTimeSummary)
+}
+
+export async function getApiKey(userId: string): Promise<string> {
+  if (!userId) {
+    throw new Error('No userId provided to getApiKey');
+  }
+  const getKey = httpsCallable(getFunctions(), 'getApiKey')
+  const result = await getKey({ userId });
+  const data = result.data as any;
+  const apiKey = data.apiKey;
+  return apiKey
 }

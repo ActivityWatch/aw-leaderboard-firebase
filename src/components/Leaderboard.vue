@@ -38,8 +38,7 @@ export default {
     onMounted(async () => {
       try {
         const { fetchLeaderboardData, leaderboardData} = useLeaderboardStore()
-        fetchLeaderboardData()
-        leaderboardData?.sort((a, b) => b.total - a.total)
+        await fetchLeaderboardData()
         entries.value = leaderboardData
       } catch (error) {
         console.error(error)
@@ -47,9 +46,9 @@ export default {
     })
 
     // Helper method to format time in minutes and hours
-    const formatTime = (milliseconds: number) => {
-      const hours = Math.floor(milliseconds / 60000)
-      const minutes = milliseconds % 60
+    const formatTime = (seconds: number) => {
+      const hours = Math.floor(seconds / 3600)
+      const minutes = seconds % 60
       return `${hours}h ${minutes}m`
     }
 
