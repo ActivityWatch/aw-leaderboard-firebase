@@ -105,3 +105,13 @@ export async function getLeaderboard(): Promise<ScreenTimeSummary[]> {
   })
   return leaderboard
 }
+
+export async function getApiKey(userId: string): Promise<string | null> {
+  const docRef = doc(db, 'users', userId)
+  const docSnap = await getDoc(docRef)
+  if (docSnap.exists()) {
+    return docSnap.data().apikey
+  } else {
+    return null
+  }
+}
