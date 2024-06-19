@@ -15,7 +15,7 @@ exports.onUserCreated = functions.auth.user().onCreate((user) => {
   const colpath = "users";
   const docpath = user.uid;
   const apiKey = genKey.generateApiKey();
-  const jsonObj = JSON.parse(`{"apiKey": "${apiKey}"}`);
+  const jsonObj = {apiKey: apiKey};
   return db.collection(colpath).doc(docpath).set(jsonObj);
 });
 
