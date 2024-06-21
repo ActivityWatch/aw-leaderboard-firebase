@@ -3,7 +3,6 @@
   <AWLHeader />
   <div>
     <h1>Dashboard</h1>
-    <p v-if="user">Logged in as {{ user.email }}</p>
     <StackedBarChart id="chart" :summary="summaries" />
     <PieChart id="pie" :summaries="summaries" />
   </div>
