@@ -4,6 +4,7 @@ import LoginForm from '@/components/LoginForm.vue'
 import SignupForm from '@/components/SignupForm.vue'
 import Dashboard from '@/components/Dashboard.vue'
 import Leaderboard from '@/components/Leaderboard.vue'
+import Apikey from '@/components/Apikey.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -24,7 +25,8 @@ const router = createRouter({
     { path: '/login', name: 'Login', component: LoginForm },
     { path: '/signup', name: 'Signup', component: SignupForm },
     { path: '/dashboard', name: 'Dashboard', component: Dashboard },
-    { path: '/leaderboard', name: 'Leaderboard', component: Leaderboard }
+    { path: '/leaderboard', name: 'Leaderboard', component: Leaderboard },
+    { path: '/apikey', name: 'Apikey', component: Apikey }
   ]
 })
 
