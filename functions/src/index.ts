@@ -28,7 +28,7 @@ exports.onUserDeleted = functions.auth.user().onDelete((user) => {
 });
 
 export const UpdateLeaderboardData = onSchedule(
-  "every day 00:00", async (event) => {
+  "every day 00:00", async (_) => {
   // WIP
     info("Updating leaderboard data");
     const db = admin.firestore();
@@ -173,7 +173,7 @@ exports.uploadData = onRequest(async (request, response) => {
 });
 
 exports.onUploadData = onObjectFinalized(
-  {cpu: 4}, async (event) => {
+  {cpu: 4, memory: "2GiB"}, async (event) => {
     info("Processing uploaded data");
     const file = event.data;
     const bucket = admin.storage().bucket();
@@ -192,7 +192,9 @@ exports.onUploadData = onObjectFinalized(
         timestamp: rawEvent.timestamp,
         duration: rawEvent.duration,
         data: rawEvent.data,
-        category: rawEvent.data.$category ? rawEvent.data.$category : "Uncategorized",
+        category: rawEvent.data.$category ?
+          rawEvent.data.$category :
+          "Uncategorized",
       };
 
       let date = new Date(event.timestamp).toISOString().split("T")[0];
