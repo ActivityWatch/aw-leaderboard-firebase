@@ -15,11 +15,12 @@ import AWLHeader from '@/components/Header.vue'
 import router from '@/router'
 import StackedBarChart from './StackedBarChart.vue'
 import PieChart from './PieChart.vue'
+import { computed } from 'vue'
 
 const { isAuthenticated } = useAuthStore()
-const { fetchSummary, summary } = useScreenTimeStore()
-fetchSummary()
-const summaries = summary
+const store = useScreenTimeStore()
+store.fetchSummary()
+const summaries = computed(() => store.summary)
 
 if (!isAuthenticated) {
   router.push({ name: 'Login' })

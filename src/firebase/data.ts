@@ -54,7 +54,7 @@ export async function getScreenTimeData(
   userId: string,
   since: Date | null = null,
   _public: Boolean = true
-): Promise<ScreenTimeData[] | null> {
+): Promise<ScreenTimeData[] | []> {
   const q = query(
     collection(db, 'screentime/' + userId + '/' + userId),
     // where('date', '>=', since || new Date('1900-1-1')),
@@ -63,11 +63,11 @@ export async function getScreenTimeData(
 
   const snapshot = await getDocs(q)
   if (snapshot.empty) {
-    return null
+    return []
   }
   const data = snapshot.docs.map((doc) => doc.data())
   if (!data) {
-    return null
+    return []
   }
   return data as ScreenTimeData[]
 }
