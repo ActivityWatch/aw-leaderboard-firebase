@@ -110,8 +110,9 @@ export async function getApiKey(userId: string): Promise<string | null> {
   const docRef = doc(db, 'users', userId)
   const docSnap = await getDoc(docRef)
   if (docSnap.exists()) {
-    return docSnap.data().apikey
+    return docSnap.data().apiKey
   } else {
+    console.log("No apikey found");
     return null
   }
 }
