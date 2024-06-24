@@ -8,7 +8,7 @@ export const useApiKeyStore = defineStore('apikey', () => {
   async function fetchKey() {
     const userId = useAuthStore().user!.uid
     getApiKey(userId).then((key) => {
-    apikey.value = key;
+      apikey.value = key
     })
   }
 
