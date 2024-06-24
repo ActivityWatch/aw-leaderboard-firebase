@@ -2,6 +2,7 @@ export interface Event {
   timestamp: number // Unix timestamp
   duration: number
   data: any
+  category: string[]
 }
 
 // Screentime is stored in day-level objects that have
