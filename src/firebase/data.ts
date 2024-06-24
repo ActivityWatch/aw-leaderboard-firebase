@@ -50,7 +50,11 @@ export async function addScreenTimeData(userId: number, data: ScreenTimeData) {
   }
 }
 
-export async function getScreenTimeData(userId: string, since: Date | null = null, _public: Boolean = true): Promise<ScreenTimeData[] | null> {
+export async function getScreenTimeData(
+  userId: string,
+  since: Date | null = null,
+  _public: Boolean = true
+): Promise<ScreenTimeData[] | null> {
   const q = query(
     collection(db, 'screentime/' + userId + '/' + userId),
     // where('date', '>=', since || new Date('1900-1-1')),
@@ -112,7 +116,7 @@ export async function getApiKey(userId: string): Promise<string | null> {
   if (docSnap.exists()) {
     return docSnap.data().apiKey
   } else {
-    console.log("No apikey found");
+    console.log('No apikey found')
     return null
   }
 }
