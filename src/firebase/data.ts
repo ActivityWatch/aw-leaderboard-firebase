@@ -23,7 +23,7 @@ export function dataToSummary(data: ScreenTimeData): ScreenTimeSummary {
   const total = data.events.reduce((acc, event) => acc + event.duration, 0)
   const categoryTotals: { [key: string]: number } = {}
   data.events.forEach((event) => {
-    const category = event.data.category
+    const category = event.category[0] || 'Uncategorized'
     if (!categoryTotals[category]) {
       categoryTotals[category] = 0
     }
