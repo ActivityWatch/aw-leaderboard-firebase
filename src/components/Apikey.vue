@@ -11,10 +11,9 @@ import { ref, computed } from 'vue'
 import AWLHeader from '@/components/Header.vue'
 import { useApiKeyStore } from '@/stores/apikey'
 
-const store  = useApiKeyStore()
+const store = useApiKeyStore()
 store.fetchKey()
 const apiKey = computed(() => store.apikey)
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

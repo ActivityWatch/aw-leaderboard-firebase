@@ -16,7 +16,7 @@ import router from '@/router'
 import StackedBarChart from './StackedBarChart.vue'
 import PieChart from './PieChart.vue'
 
-const {isAuthenticated} = useAuthStore()
+const { isAuthenticated } = useAuthStore()
 const { fetchSummary, summary } = useScreenTimeStore()
 fetchSummary()
 const summaries = summary
