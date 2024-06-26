@@ -57,7 +57,8 @@ export async function getScreenTimeData(
 ): Promise<ScreenTimeData[] | []> {
   const q = query(
     collection(db, 'screentime/' + userId + '/' + userId),
-    // where('date', '>=', since || new Date('1900-1-1')),
+    // TODO: fetch data using the since parameter
+    // where('date', '>=', since || new Date('1900-1-1')), 
     where('public', '==', _public)
   )
 

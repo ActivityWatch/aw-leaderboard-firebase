@@ -4,6 +4,7 @@
     <h1>API Key</h1>
     <p>Your API key is: {{ apiKey }}</p>
   </div>
+  <!--TODO: Add rotate key, copy to clipboard functionality -->
 </template>
 
 <script setup lang="ts">
