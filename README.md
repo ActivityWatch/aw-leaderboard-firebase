@@ -2,7 +2,7 @@
 
 [![Test](https://github.com/ActivityWatch/aw-leaderboard-firebase/actions/workflows/test.yml/badge.svg)](https://github.com/ActivityWatch/aw-leaderboard-firebase/actions/workflows/test.yml)
 
-Hosted at https://aw-leaderboard.web.app/ (WIP!)
+Hosted at <https://aw-leaderboard.web.app/> (WIP!)
 
 A prototype of a public leaderboard for screentime data collected by ActivityWatch.
 
@@ -11,8 +11,9 @@ It uses Vue 3, Firebase (for auth/storage), and Bootstrap.
 The goal was to make a leaderboard app that complements the local-first nature of ActivityWatch with basic social features like public leaderboards or sharing specific screentime data privately with a group.
 
 Previous experiments/attempts were made in:
- - [aw-leaderboard-rust](https://github.com/activitywatch/aw-leaderboard-rust).
- - [aw-supabase](https://github.com/ActivityWatch/aw-supabase)
+
+- [aw-leaderboard-rust](https://github.com/activitywatch/aw-leaderboard-rust).
+- [aw-supabase](https://github.com/ActivityWatch/aw-supabase)
 
 ---
 
@@ -29,13 +30,14 @@ See [Vite Configuration Reference](https://vitejs.dev/config/).
 
 ## Project Setup
 
-
 ### Clone the Repo and its submodules
+
 ```sh
 git clone --recurse-submodules https://github.com/ActivityWatch/aw-leaderboard-firebase
 ```
 
 ### Install the dependencies
+
 ```sh
 npm install
 ```
