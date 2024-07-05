@@ -30,7 +30,12 @@ export const useScreenTimeStore = defineStore('screentime', () => {
     })
   }
 
-  return { screenTimeData, summary, fetchSummary }
+  async function resetStore() {
+    screenTimeData.value = []
+    summary.value = []
+  }
+
+  return { screenTimeData, summary, fetchSummary, resetStore }
 }, {
   persist: true
 })
