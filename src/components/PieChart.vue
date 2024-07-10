@@ -1,22 +1,21 @@
 <template>
-  <canvas ref="canvasRef" id="myChart"></canvas>
+  <canvas ref="canvasRef" width="width" height="height"></canvas>
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { ref, watch, onMounted } from 'vue';
 import type { ScreenTimeSummary } from '@/types';
 import autocolors from 'chartjs-plugin-autocolors';
-import { Chart as ChartJS, ArcElement,PieController, Tooltip, Title } from 'chart.js';
+import { Chart as ChartJS, ArcElement,PieController} from 'chart.js';
 
-ChartJS.register(autocolors, ArcElement, PieController, Tooltip, Title);
+ChartJS.register(autocolors, ArcElement, PieController);
 
 interface Props {
   summaries: ScreenTimeSummary[] | null;
 }
 
 const props = defineProps<Props>();
-
-const canvasRef = ref<HTMLCanvasElement | null>(null);
+const canvasRef = ref<HTMLCanvasElement>();
 
 const getChartData = () => {
   const uniqueCategoriesSet: Set<string> = new Set();
@@ -67,12 +66,14 @@ const renderChart = () => {
   });
 };
 
-watch(
-  () => props.summaries,
-  () => {
-    console.log('summaries changed');
+watch( () => props.summaries, (newValue, oldValue) => {
+  if (newValue !== oldValue) {
     renderChart();
-  },
-  { deep: true }
-);
+  }
+}, { deep: true });
+
+onMounted(()=>{
+  renderChart()
+})
 </script>
+

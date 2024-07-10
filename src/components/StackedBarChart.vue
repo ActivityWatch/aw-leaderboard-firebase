@@ -1,9 +1,9 @@
 <template>
-  <canvas ref="canvasRef" id="myChart"></canvas>
+  <canvas ref="canvasRef"></canvas>
 </template>
 
 <script lang="ts" setup>
-import { ref, watch } from 'vue';
+import { ref, watch, onMounted} from 'vue';
 import type { ScreenTimeSummary } from '@/types';
 import autocolors from 'chartjs-plugin-autocolors';
 import { Chart as ChartJS, Legend, BarElement, BarController,CategoryScale, LinearScale, Tooltip, Title } from 'chart.js';
@@ -15,7 +15,7 @@ interface Props {
 }
 
 const props = defineProps<Props>();
-const canvasRef = ref<HTMLCanvasElement | null>(null);
+const canvasRef = ref<HTMLCanvasElement>();
 
 const getChartData = () => {
   const uniqueDates = Array.from(new Set(props.summaries?.map((summary) => summary.date)));
@@ -84,8 +84,13 @@ const renderChart = () => {
   });
 };
 
-watch(() => props.summaries, () => {
-  renderChart();
-});
+watch( () => props.summaries, (newValue, oldValue) => {
+  if (newValue !== oldValue) {
+    renderChart();
+  }
+}, { deep: true })
+onMounted(()=>{
+  renderChart()
+})
 
 </script>
