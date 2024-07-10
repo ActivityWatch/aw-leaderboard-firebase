@@ -3,7 +3,7 @@
   <AWLHeader />
   <div>
     <h1>Dashboard</h1>
-    <StackedBarChart id="chart" :summary="summaries" />
+    <StackedBarChart id="chart" :summaries="summaries" />
     <PieChart id="pie" :summaries="summaries" />
   </div>
 </template>
