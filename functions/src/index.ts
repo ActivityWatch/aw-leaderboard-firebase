@@ -4,7 +4,7 @@ import { onSchedule } from 'firebase-functions/v2/scheduler'
 import * as admin from 'firebase-admin'
 import * as functions from 'firebase-functions'
 import * as genKey from 'generate-api-key'
-import { info, error } from 'firebase-functions/logger'
+import { info, debug, error } from 'firebase-functions/logger'
 import { RawEvent, Event } from './types'
 
 admin.initializeApp()
@@ -89,7 +89,7 @@ export const UpdateLeaderboardData = onSchedule('every day 00:00', async (_) => 
 export const getApiKey = functions.https.onCall(async (_, context) => {
   /** A callable function only executed when the user is logged in */
   info('Getting ApiKey')
-  info('Request data: ', context)
+  debug('Request data: ', context)
   if (!context.auth) {
     error('Not authenticated')
     return { error: 'Not authenticated' }
@@ -112,7 +112,7 @@ export const getApiKey = functions.https.onCall(async (_, context) => {
 export const rotateApiKey = functions.https.onCall(async (_, context) => {
   /** A callable function only executed when the user is logged in */
   info('Rotating ApiKey')
-  info('Request data: ', context)
+  debug('Request data: ', context)
   if (!context.auth) {
     error('Not authenticated')
     return { error: 'Not authenticated' }
@@ -136,7 +136,7 @@ export const rotateApiKey = functions.https.onCall(async (_, context) => {
 
 exports.uploadData = onRequest(async (request, response) => {
   info('Storing data')
-  info('Request data: ', request.body)
+  debug('Request data: ', request.body)
   if (!request.body.apiKey) {
     error('No apiKey provided!')
     response.status(400).send({ error: 'No apiKey provided!' })
@@ -151,7 +151,7 @@ exports.uploadData = onRequest(async (request, response) => {
   const apiKey = request.body.apiKey
   const db = admin.firestore()
   const querySnapshot = await db.collection('users').where('apiKey', '==', apiKey).get()
-  info('QuerySnapshot: ', querySnapshot)
+  debug('QuerySnapshot: ', querySnapshot)
   if (querySnapshot.empty) {
     error('Invalid apiKey provided!')
     response.status(403).send({ error: 'Invalid apiKey provided!' })
