@@ -5,7 +5,7 @@ import { ref } from 'vue'
 
 export const useApiKeyStore = defineStore('apikey', () => {
   const apikey = ref(null as string | null)
-  async function fetchKey() {
+  function fetchKey() {
     const userId = useAuthStore().user!.uid
     getApiKey(userId).then((key) => {
       apikey.value = key
