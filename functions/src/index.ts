@@ -42,15 +42,13 @@ export const UpdateLeaderboardData = onSchedule('every day 00:00', async (_) => 
     for (const screenTimeUserDoc of screenTimeUserDocs) {
       const doc = await screenTimeUserDoc.get()
       const events = doc.data()?.events as Event[]
-      // info("events: ", events);
       totals.set('total', 0)
       for (const event of events) {
+        //TODO: pick the last category? likely to be more specific
         const category = event.category.length > 0 ? (event.category[0] as string) : 'Other'
-        // info("category: ", category)";
         totals.set(category, (totals.get(category) || 0) + event.duration)
         totals.set('total', (totals.get('total') || 0) + event.duration)
       }
-      // const total = totals.get("Total");
       const userId = (await screenTimeUserDoc.get()).data()?.userId
       const date = (await screenTimeUserDoc.get()).data()?.date
       totals.delete('total')
