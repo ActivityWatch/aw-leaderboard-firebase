@@ -10,7 +10,7 @@ export const useScreenTimeStore = defineStore('screentime', () => {
   const screenTimeData = ref<ScreenTimeData[] | []>([])
   const summary = ref<ScreenTimeSummary[] | []>([])
 
-  async function fetchSummary() {
+  function fetchSummary() {
     const userId = useAuthStore().user!.uid
     const db = getFirestore()
     const colRef = collection(db, `screentime/${userId}/${userId}`)
@@ -30,7 +30,7 @@ export const useScreenTimeStore = defineStore('screentime', () => {
     })
   }
 
-  async function resetStore() {
+  function resetStore() {
     screenTimeData.value = []
     summary.value = []
   }

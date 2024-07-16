@@ -13,12 +13,12 @@ export const useLeaderboardStore = defineStore('leaderboard', {
   },
   persist: true,
   actions: {
-    async fetchLeaderboardData() {
+    fetchLeaderboardData() {
       getLeaderboard().then((data) => {
         this.leaderboardData = data
       })
     },
-    async resetStore() {
+    resetStore() {
       this.leaderboardData = null
       this.$reset()
     }
