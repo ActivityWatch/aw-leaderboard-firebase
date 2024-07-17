@@ -16,10 +16,12 @@ exports.onUserCreated = functions.auth.user().onCreate((user) => {
   const docpath = user.uid
   const apiKey = genKey.generateApiKey()
   const jsonObj = { apiKey: apiKey }
+  // TODO: handle possible collisions
   return db.collection(colpath).doc(docpath).set(jsonObj)
 })
 
 exports.onUserDeleted = functions.auth.user().onDelete((user) => {
+  // TODO: consider what to do with the user's data
   info('User deleted: ', user.uid)
   const db = admin.firestore()
   const colpath = 'users'
