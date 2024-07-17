@@ -32,59 +32,38 @@ exports.onUserDeleted = functions.auth.user().onDelete((user) => {
 export const UpdateLeaderboardData = onSchedule('every day 00:00', async (_) => {
   // WIP
   info('Updating leaderboard data')
-  const db = admin.firestore()
-  const destinationColpath = 'leaderboard'
-  const screentimeColpath = 'screentime/'
-  const screenTimeDocs = await db.collection(screentimeColpath).listDocuments()
-  const totals = new Map<string, number>()
-  const promises = []
-  for (const userDoc of screenTimeDocs) {
-    const sourceColpath = 'screentime/' + userDoc.id + '/' + userDoc.id
-    const screenTimeUserDocs = await db.collection(sourceColpath).listDocuments()
-    for (const screenTimeUserDoc of screenTimeUserDocs) {
-      const doc = await screenTimeUserDoc.get()
-      const events = doc.data()?.events as Event[]
-      totals.set('total', 0)
+  const userScreenTimes = new Map<string, number>();
+  const db = admin.firestore();
+  const destinationColpath = "leaderboard";
+  const screentimeColpath = "screentime/";
+  const screenTimeDocs = await db.collection(screentimeColpath).listDocuments();
+  const promises = [];
+  for (const doc of screenTimeDocs) {
+    const userId: string = doc.id;
+    const userScreenTime = await db.collection(screentimeColpath + userId + "/" + userId).listDocuments();
+    let total = 0;
+    for (const day of userScreenTime) {
+      const dayData = await day.get();
+      const dayDataJson = dayData.data();
+      const events: Event[] = dayDataJson?.events;
       for (const event of events) {
-        //TODO: pick the last category? likely to be more specific
-        const category = event.category.length > 0 ? (event.category[0] as string) : 'Other'
-        totals.set(category, (totals.get(category) || 0) + event.duration)
-        totals.set('total', (totals.get('total') || 0) + event.duration)
-      }
-      const userId = (await screenTimeUserDoc.get()).data()?.userId
-      const date = (await screenTimeUserDoc.get()).data()?.date
-      totals.delete('total')
-      for (const [category, total] of totals.entries()) {
-        const docpath = date
-        const docref = db.collection(destinationColpath).doc(docpath)
-        const doc = await docref.get()
-        if (doc.exists) {
-          const categoryTotals = doc.data()?.CategoryTotals as { [key: string]: number }
-          const keys = Object.keys(categoryTotals)
-          if (keys.includes(category)) {
-            categoryTotals[category] += total
-          } else {
-            categoryTotals[category] = total
-          }
-          const promise = docref.update({
-            CategoryTotals: categoryTotals,
-            total: total + doc.data()?.total
-          })
-          promises.push(promise)
-        } else {
-          const jsonObj = Object.fromEntries(totals)
-          const promise = docref.set({
-            CategoryTotals: jsonObj,
-            total: total,
-            userId: userId,
-            date: date
-          })
-          promises.push(promise)
-        }
+        total += event.duration;
       }
     }
-    await Promise.all(promises)
+    userScreenTimes.set(userId, total);
   }
+  const sortedUserScreenTimes = new Map([...userScreenTimes.entries()].sort((a, b) => b[1] - a[1]));
+  let rank = 1;
+  for (const [userId, total] of sortedUserScreenTimes) {
+    const jsonObj = JSON.parse(`{
+    "userId": "${userId}",
+    "total": ${total}
+    }`);
+    const promise = db.collection(destinationColpath).doc(userId).set(jsonObj);
+    promises.push(promise);
+    rank++;
+  }
+  await Promise.all(promises);
 })
 export const getApiKey = functions.https.onCall(async (_, context) => {
   /** A callable function only executed when the user is logged in */
