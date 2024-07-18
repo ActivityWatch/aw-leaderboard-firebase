@@ -5,7 +5,7 @@ import * as admin from "firebase-admin";
 import * as functions from "firebase-functions";
 import * as genKey from "generate-api-key";
 import {info, debug, error} from "firebase-functions/logger";
-import {RawEvent, Event} from "./types";
+import {RawEvent, Event, ScreenTimeData, ScreenTimeSummary} from "./types";
 
 admin.initializeApp();
 
@@ -29,9 +29,7 @@ exports.onUserDeleted = functions.auth.user().onDelete((user) => {
 });
 
 export const UpdateLeaderboardData = onSchedule("every day 00:00", async () => {
-  // WIP
   info("Updating leaderboard data");
-  const userScreenTimes = new Map<string, number>();
   const db = admin.firestore();
   const destinationColpath = "leaderboard";
   const screentimeColpath = "screentime/";
@@ -42,31 +40,28 @@ export const UpdateLeaderboardData = onSchedule("every day 00:00", async () => {
     const userScreenTime = await db
       .collection(screentimeColpath + userId + "/" + userId)
       .listDocuments();
-    let total = 0;
+    const events: Event[] = [];
     for (const day of userScreenTime) {
       const dayData = await day.get();
       const dayDataJson = dayData.data();
-      const events: Event[] = dayDataJson?.events;
-      for (const event of events) {
-        total += event.duration;
+      if (dayDataJson?.events) {
+        events.push(...dayDataJson.events);
       }
     }
-    userScreenTimes.set(userId, total);
-  }
-  const sortedUserScreenTimes = new Map([...userScreenTimes.entries()]
-    .sort((a, b) => b[1] - a[1]));
-  let rank = 1;
-  for (const [userId, total] of sortedUserScreenTimes) {
-    const jsonObj = JSON.parse(`{
-    "userId": "${userId}",
-    "rank": ${rank},
-    "total": ${total}
-    }`);
-    const promise = db.collection(destinationColpath).doc(userId).set(jsonObj);
+    const screenTimeData: ScreenTimeData = {
+      userId,
+      events,
+      date: new Date().toISOString().split("T")[0],
+      public: true,
+    };
+
+    const summary = dataToSummary(screenTimeData);
+
+    const promise = db.collection(destinationColpath).doc(userId).set(summary);
     promises.push(promise);
-    rank++;
   }
   await Promise.all(promises);
+  info("Leaderboard data updated successfully");
 });
 export const getApiKey = functions.https.onCall(async (_, context) => {
   /** A callable function only executed when the user is logged in */
