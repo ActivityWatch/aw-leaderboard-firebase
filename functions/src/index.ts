@@ -211,3 +211,20 @@ exports.onUploadData = onObjectFinalized(
     info("Data processed successfully");
   });
 
+function dataToSummary(data: ScreenTimeData): ScreenTimeSummary {
+  const total = data.events.reduce((acc, event) => acc + event.duration, 0);
+  const categoryTotals: { [key: string]: number } = {};
+  data.events.forEach((event) => {
+    const category = event.category[0] || "Uncategorized";
+    if (!categoryTotals[category]) {
+      categoryTotals[category] = 0;
+    }
+    categoryTotals[category] += event.duration;
+  });
+  return {
+    userId: data.userId,
+    total,
+    date: data.date,
+    categoryTotals,
+  };
+}
