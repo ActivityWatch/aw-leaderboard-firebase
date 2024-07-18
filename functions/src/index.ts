@@ -15,9 +15,8 @@ exports.onUserCreated = functions.auth.user().onCreate((user) => {
   const colpath = "users";
   const docpath = user.uid;
   const apiKey = genKey.generateApiKey();
-  const jsonObj = {apiKey: apiKey};
   // TODO: handle possible collisions
-  return db.collection(colpath).doc(docpath).set(jsonObj);
+  return db.collection(colpath).doc(docpath).set({apiKey: apiKey});
 });
 
 exports.onUserDeleted = functions.auth.user().onDelete((user) => {
@@ -211,3 +210,4 @@ exports.onUploadData = onObjectFinalized(
     await batch.commit();
     info("Data processed successfully");
   });
+
