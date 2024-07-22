@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-md-6">
         <p class="small text-muted">
-          &copy; 2023 <a href="https://superuserlabs.org">Superuser Labs</a> Lund AB. All rights
+          &copy; 2024 <a href="https://superuserlabs.org">Superuser Labs</a> Lund AB. All rights
           reserved.
         </p>
       </div>
