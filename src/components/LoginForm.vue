@@ -21,7 +21,6 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
-import { useScreenTimeStore } from '@/stores/screentime'
 import { useLeaderboardStore } from '@/stores/leaderboard'
 
 export default {
@@ -34,7 +33,6 @@ export default {
     if (auth.isAuthenticated) {
       router.push({ name: 'Dashboard' })
     } else {
-      useScreenTimeStore().resetStore()
       useLeaderboardStore().resetStore()
     }
     const login = async () => {
