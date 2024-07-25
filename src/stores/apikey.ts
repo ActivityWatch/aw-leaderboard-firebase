@@ -12,8 +12,6 @@ export const useApiKeyStore = defineStore('apikey', () => {
       apikey.value = key
     })
   }
-
-
   return { apikey, fetchKey }
 },
 {
