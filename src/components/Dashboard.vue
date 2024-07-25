@@ -19,7 +19,6 @@ import { computed } from 'vue'
 
 const { isAuthenticated } = useAuthStore()
 const store = useScreenTimeStore()
-store.fetchSummary()
 const summaries = computed(() => store.summary)
 
 if (!isAuthenticated) {
