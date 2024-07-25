@@ -17,6 +17,7 @@
   "dependencies": {
     "chart.js": "^4.4.2",
     "chartjs-plugin-autocolors": "^0.2.2",
+    "d3": "^7.0.0",
     "firebase": "^9.23.0",
     "lodash": "^4.17.21",
     "pinia": "^2.1.3",
