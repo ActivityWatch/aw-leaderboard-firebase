@@ -9,7 +9,7 @@
         <ul v-if="user">
           <li>
             <span>Welcome, {{ user.email }}</span>
-            <button @click="handleLogout">Logout</button>
+            <LogOutIcon id="logout" @click="handleLogout">Logout</LogOutIcon>
           </li>
         </ul>
         <ul v-else>
@@ -25,28 +25,23 @@
   </header>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
+import LogOutIcon from "vue-material-design-icons/Logout.vue"
 
-export default {
-  name: 'AWLHeader',
-  setup() {
-    const router = useRouter()
-    const { user, logout } = useAuthStore()
+const router = useRouter()
+const { user, logout } = useAuthStore()
 
-    const handleLogout = async () => {
-      try {
-        await logout()
-        router.push('/')
-      } catch (error) {
-        console.error('Logout failed:', error)
-      }
-    }
-
-    return { user, handleLogout }
+const handleLogout = async () => {
+  try {
+    await logout()
+    router.push('/')
+  } catch (error) {
+    console.error('Logout failed:', error)
   }
 }
+
 </script>
 
 <style scoped>
@@ -69,5 +64,8 @@ nav ul {
 nav ul li {
   display: inline-block;
   margin-right: 10px;
+}
+#logout {
+  padding: 0em 0em 0em 0.5em;
 }
 </style>
