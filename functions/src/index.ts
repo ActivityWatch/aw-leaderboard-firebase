@@ -95,7 +95,7 @@ export const rotateApiKey = functions.https.onCall(async (_, context) => {
     return {error: "Not authenticated"};
   }
   const db = admin.firestore();
-  const colpath = "apiKeys";
+  const colpath = "users";
   const docpath = context.auth?.uid;
   const docref = db.collection(colpath).doc(docpath);
   const doc = await docref.get();
