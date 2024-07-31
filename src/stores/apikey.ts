@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { getApiKey } from '@/firebase/data'
+import { getApiKey, rotateKey as rotateKeyCallable } from '@/firebase/data'
 import { useAuthStore } from './auth'
 import { ref } from 'vue'
 
@@ -12,7 +12,16 @@ export const useApiKeyStore = defineStore('apikey', () => {
       apikey.value = key
     })
   }
-  return { apikey, fetchKey }
+  function rotateKey() {
+    const userId = useAuthStore().user!.uid
+    rotateKeyCallable(userId).then((key) => {
+      console.log('Key is now', key)
+      if (key != null) {
+        apikey.value = key
+      }
+  })
+  }
+  return { apikey, fetchKey, rotateKey }
 },
 {
   persist: true

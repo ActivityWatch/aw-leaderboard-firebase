@@ -17,7 +17,10 @@ import {
   query,
   where
 } from 'firebase/firestore/lite'
+import { getFunctions, httpsCallable } from "firebase/functions";
 import type { ScreenTimeData, ScreenTimeSummary } from '@/types'
+
+const functions = getFunctions();
 
 export function dataToSummary(data: ScreenTimeData): ScreenTimeSummary {
   const total = data.events.reduce((acc, event) => acc + event.duration, 0)
@@ -120,4 +123,21 @@ export async function getApiKey(userId: string): Promise<string | null> {
     console.log('No apikey found')
     return null
   }
+}
+
+interface ApiResponse {
+  apiKey: string;
+}
+
+export async function rotateKey(userId: string): Promise<string | null> {
+  // invoke a callable function to rotate the user's api key
+  // this function is defined in functions/src/index.ts
+  const rotateApiKey = httpsCallable(functions, 'rotateApiKey')
+  const key = rotateApiKey({ userId: userId }).then((result) => {
+    return (result.data as ApiResponse)?.apiKey;
+  }).catch((error) => {
+    console.error(error)
+    return null
+  })
+  return key
 }

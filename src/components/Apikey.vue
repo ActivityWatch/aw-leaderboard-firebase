@@ -4,8 +4,8 @@
     <h1>API Key</h1>
     <p>Your API key is: {{ apiKey }} <ContentCopyIcon @click ="copyApikey"/></p>
     <SnackBarVue :message="snackbarMessage" ref="snackbar"/>
+    <button @click="rotateKey">Rotate Key</button>
   </div>
-  <!--TODO: Add rotate key -->
 </template>
 
 <script setup lang="ts">
@@ -25,6 +25,11 @@ const copyApikey = () => {
   if (!apiKey.value) return
   navigator.clipboard.writeText(apiKey.value)
   snackbarMessage.value = 'ApiKey copied to clipboard'
+}
+
+const rotateKey = () => {
+  store.rotateKey()
+  snackbarMessage.value = 'ApiKey rotated'
 }
 
 </script>
