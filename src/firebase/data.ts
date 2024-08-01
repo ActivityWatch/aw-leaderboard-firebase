@@ -60,8 +60,11 @@ export async function getScreenTimeData(
 ): Promise<ScreenTimeData[] | []> {
   const q = query(
     collection(db, 'screentime/' + userId + '/' + userId),
-    // TODO: fetch data using the since parameter
-    // where('date', '>=', since || new Date('1900-1-1')), 
+    where(
+      'date',
+      '>=',
+      since?.toISOString().split('T')[0] || new Date('1900-1-1').toISOString().split('T')[0]
+    ),
     where('public', '==', _public)
   )
 
@@ -83,7 +86,11 @@ export async function getPublicScreenTimeData(
   const q = query(
     collection(db, 'screentime'),
     where('public', '==', true),
-    where('date', '>=', since || new Date('1900-1-1'))
+    where(
+      'date',
+      '>=',
+      since?.toISOString().split('T')[0] || new Date('1900-1-1').toISOString().split('T')[0]
+    ),
   )
   const snapshot = await getDocs(q)
   if (snapshot.empty) {
