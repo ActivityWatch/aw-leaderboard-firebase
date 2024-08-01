@@ -3,34 +3,34 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, onMounted } from 'vue';
-import type { ScreenTimeSummary } from '@/types';
-import autocolors from 'chartjs-plugin-autocolors';
-import { Chart as ChartJS, ArcElement,PieController} from 'chart.js';
+import { ref, watch, onMounted } from 'vue'
+import type { ScreenTimeSummary } from '@/types'
+import autocolors from 'chartjs-plugin-autocolors'
+import { Chart as ChartJS, ArcElement, PieController } from 'chart.js'
 
-ChartJS.register(autocolors, ArcElement, PieController);
+ChartJS.register(autocolors, ArcElement, PieController)
 
 interface Props {
-  summaries: ScreenTimeSummary[] | null;
+  summaries: ScreenTimeSummary[] | null
 }
 
-const props = defineProps<Props>();
-const canvasRef = ref<HTMLCanvasElement>();
+const props = defineProps<Props>()
+const canvasRef = ref<HTMLCanvasElement>()
 
 const getChartData = () => {
-  const uniqueCategoriesSet: Set<string> = new Set();
+  const uniqueCategoriesSet: Set<string> = new Set()
   props.summaries?.forEach((summary) => {
     for (const category in summary.categoryTotals) {
-      uniqueCategoriesSet.add(category);
+      uniqueCategoriesSet.add(category)
     }
-  });
-  const uniqueCategories = Array.from(uniqueCategoriesSet);
-  const categoryTotals: number[] = [];
+  })
+  const uniqueCategories = Array.from(uniqueCategoriesSet)
+  const categoryTotals: number[] = []
   for (const category of uniqueCategories) {
     const categoryTotal = props.summaries?.reduce((acc, summary) => {
-      return acc + (summary.categoryTotals[category] || 0);
-    }, 0);
-    categoryTotals.push(categoryTotal || 0);
+      return acc + (summary.categoryTotals[category] || 0)
+    }, 0)
+    categoryTotals.push(categoryTotal || 0)
   }
   return {
     labels: uniqueCategories,
@@ -40,16 +40,16 @@ const getChartData = () => {
         data: categoryTotals
       }
     ]
-  };
-};
+  }
+}
 
 const renderChart = () => {
-  const canvas = canvasRef.value;
-  if (!canvas) return;
-  const ctx = canvas.getContext('2d');
-  if (!ctx) return;
+  const canvas = canvasRef.value
+  if (!canvas) return
+  const ctx = canvas.getContext('2d')
+  if (!ctx) return
 
-  ChartJS.getChart(canvas)?.destroy();
+  ChartJS.getChart(canvas)?.destroy()
 
   new ChartJS(ctx, {
     type: 'pie',
@@ -63,17 +63,20 @@ const renderChart = () => {
         }
       }
     }
-  });
-};
+  })
+}
 
-watch( () => props.summaries, (newValue, oldValue) => {
-  if (newValue !== oldValue) {
-    renderChart();
-  }
-}, { deep: true });
+watch(
+  () => props.summaries,
+  (newValue, oldValue) => {
+    if (newValue !== oldValue) {
+      renderChart()
+    }
+  },
+  { deep: true }
+)
 
-onMounted(()=>{
+onMounted(() => {
   renderChart()
 })
 </script>
-
