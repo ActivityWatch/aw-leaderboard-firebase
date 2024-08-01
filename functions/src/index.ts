@@ -6,7 +6,7 @@ import * as functions from "firebase-functions";
 import * as genKey from "generate-api-key";
 import {info, debug, error} from "firebase-functions/logger";
 import {RawEvent, Event, ScreenTimeData, ScreenTimeSummary} from "./types";
-
+// TODO: move imports to functions that use them to reduce cold start time
 admin.initializeApp();
 
 exports.onUserCreated = functions.auth.user().onCreate((user) => {
