@@ -29,7 +29,7 @@
 <script lang="ts" setup>
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
-import LogOutIcon from "vue-material-design-icons/Logout.vue"
+import LogOutIcon from 'vue-material-design-icons/Logout.vue'
 
 const router = useRouter()
 const { user, logout } = useAuthStore()
@@ -42,7 +42,6 @@ const handleLogout = async () => {
     console.error('Logout failed:', error)
   }
 }
-
 </script>
 
 <style scoped>

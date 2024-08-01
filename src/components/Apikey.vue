@@ -2,8 +2,8 @@
   <AWLHeader />
   <div>
     <h1>API Key</h1>
-    <p>Your API key is: {{ apiKey }} <ContentCopyIcon @click ="copyApikey"/></p>
-    <SnackBarVue :message="snackbarMessage" ref="snackbar"/>
+    <p>Your API key is: {{ apiKey }} <ContentCopyIcon @click="copyApikey" /></p>
+    <SnackBarVue :message="snackbarMessage" ref="snackbar" />
     <button @click="rotateKey">Rotate Key</button>
   </div>
 </template>
@@ -31,7 +31,6 @@ const rotateKey = () => {
   store.rotateKey()
   snackbarMessage.value = 'ApiKey rotated'
 }
-
 </script>
 
 <style scoped></style>

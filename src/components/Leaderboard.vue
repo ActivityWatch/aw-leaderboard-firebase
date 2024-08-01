@@ -46,10 +46,9 @@ onMounted(async () => {
 // Helper method to format time in minutes and hours
 const formatTime = (seconds: number) => {
   const hours = Math.floor(seconds / 3600)
-  const minutes = Math.ceil(seconds % 3600 / 60)
+  const minutes = Math.ceil((seconds % 3600) / 60)
   return `${hours}h ${minutes}m`
 }
-
 </script>
 
 <style scoped>
