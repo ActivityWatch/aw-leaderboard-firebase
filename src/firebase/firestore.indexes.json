@@ -1,4 +1,1 @@
-{
-  "indexes": [],
-  "fieldOverrides": []
-}
+../../functions/firestore.indexes.json
