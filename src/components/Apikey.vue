@@ -24,11 +24,17 @@ const apiKey = computed(() => store.apikey)
 const copyApikey = () => {
   if (!apiKey.value) return
   navigator.clipboard.writeText(apiKey.value)
+  setTimeout(() => {
+    snackbarMessage.value = ''
+  }, 3000)
   snackbarMessage.value = 'ApiKey copied to clipboard'
 }
 
 const rotateKey = () => {
   store.rotateKey()
+  setTimeout(() => {
+    snackbarMessage.value = ''
+  }, 3000)
   snackbarMessage.value = 'ApiKey rotated'
 }
 </script>
