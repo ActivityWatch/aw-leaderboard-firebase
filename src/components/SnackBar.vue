@@ -4,37 +4,34 @@
   </div>
 </template>
 
-<script lang="ts">
-export default {
-  props: {
-    message: {
-      type: String,
-      required: true
-    },
-    duration: {
-      type: Number,
-      default: 3000
-    }
+<script lang="ts" setup>
+import { ref, toRefs, watch } from 'vue'
+
+const props = defineProps({
+  message: {
+    type: String,
+    required: true
   },
-  data() {
-    return {
-      show: false
-    }
-  },
-  methods: {
-    display() {
-      this.show = true
-      setTimeout(() => {
-        this.show = false
-      }, this.duration)
-    }
-  },
-  watch: {
-    message() {
-      this.display()
-    }
+  duration: {
+    type: Number,
+    default: 3000
   }
+})
+const show = ref(false)
+const { message, duration } = toRefs(props)
+
+const display = () => {
+  show.value = true
+  setTimeout(() => {
+    show.value = false
+  }, duration.value)
 }
+
+watch(message, () => {
+  console.log('message changed')
+  display()
+})
+
 </script>
 
 <style scoped>
