@@ -1,0 +1,62 @@
+/*
+    Resets margin padding to zero.
+    Removes text decoration of <a> & <ul>
+    font-size = 62.5% changes default font size; that is 1 rem is 10px 
+    16px is default size 10/16 == 62.5%
+    New default font-size is 10px (is done for simplification)
+    Have added color-scheme light-dark
+    Based on browser setting one color is selected
+*/
+
+@mixin reset{
+    *,::after,::before{
+        margin: 0;
+        padding: 0;
+        box-sizing: inherit;
+    }
+
+    a{
+        text-decoration: none ;
+    }
+
+    ul{
+        list-style: none;
+    }
+
+    html{
+        font-size: 62.5%; // 1rem = 10px
+        color-scheme: light dark;
+    }
+
+    body{
+        box-sizing: border-box;
+        background-color: light-dark(rgb(146, 144, 144), black);
+    }
+}
+
+
+// MEDIA QUERY MANAGER
+/*
+0 - 600px:      Phone
+600 - 900px:    Tablet portrait
+900 - 1200px:   Tablet landscape
+[1200 - 1800] is where our styles apply
+1800px + :      Big desktop
+*/
+// 1em = 16px
+
+
+@mixin responsive($device) {
+    @if $device == phone {
+        @media only screen and (max-width: 37.5em) { @content };    //600px
+    }
+    @if $device == tab-port {
+        @media only screen and (max-width: 56.25em) { @content };     //900px
+    }
+    @if $device == tab-land {
+        @media only screen and (max-width: 75em) { @content };    //1200px
+    }
+    @if $device == big-desktop {
+        @media only screen and (min-width: 112.5em) { @content };    //1800
+    }
+}
