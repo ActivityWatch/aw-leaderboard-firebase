@@ -157,3 +157,7 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# Gitpod
+.gitmodules
+.gitpod.yml
