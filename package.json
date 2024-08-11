@@ -2,6 +2,7 @@
   "name": "aw-leaderboard",
   "version": "0.0.0",
   "private": true,
+  "license": "MPL-2.0",
   "scripts": {
     "dev": "vite",
     "build": "run-p type-check build-only",
@@ -13,12 +14,12 @@
     "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "format": "prettier --write src/",
-    "watch:sass": "node-sass sass/main.scss css/style.css -w",
+    "watch:sass": "node-sass src/sass/main.scss src/assets/style.css -w",
     "dev-server":"live-server --no-browser",
     "start-server": "npm-run-all --parallel dev-server watch:sass",
-    "compile:sass": "node-sass sass/main.scss css/style.comp.css",
-    "prefix:css": "postcss -use autoprefixer --map=false -b ''browserslist' css/style.comp.css -o css/style.prefix.css",
-    "compress:css": "node-sass css/style.prefix.css css/style.css --output-style compressed",
+    "compile:sass": "node-sass src/sass/main.scss  src/assets/style.comp.css",
+    "prefix:css": "postcss -use autoprefixer --map=false -b ''browserslist'  src/assets/style.comp.css -o  src/assets/style.prefix.css",
+    "compress:css": "node-sass  src/assets/style.prefix.css  src/assets/style.css --output-style compressed",
     "build:css": "npm-run-all compile:sass prefix:css compress:css "
   },
   "browserslist": [

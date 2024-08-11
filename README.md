@@ -38,6 +38,12 @@ git clone --recurse-submodules https://github.com/ActivityWatch/aw-leaderboard-f
 
 ### Install the dependencies
 
+#### Install the live server Globally
+
+```sh
+npm install live-server -g
+```
+
 ```sh
 npm install
 ```
@@ -80,6 +86,20 @@ npm run test:e2e
 
 ```sh
 npm run lint
+```
+
+### Runs Live  Server
+
+```sh
+npm start-server
+```
+
+### Compiles, adds prefixes & compress  scss files to the css file
+
+This command is executed when the project is ready for deployment
+
+```sh
+npm run build:css
 ```
 
 </details>
