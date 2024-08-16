@@ -27,6 +27,11 @@ export interface ScreenTimeSummary {
   categoryTotals: { [key: string]: number }
 }
 
+// Same as above, but with a rank field
+export interface ScreenTimeSummaryRanked extends ScreenTimeSummary {
+  rank: number
+}
+
 export interface ChartDataset {
   label: string
   data: number[]
