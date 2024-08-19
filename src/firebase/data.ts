@@ -90,7 +90,7 @@ export async function getPublicScreenTimeData(
       'date',
       '>=',
       since?.toISOString().split('T')[0] || new Date('1900-1-1').toISOString().split('T')[0]
-    ),
+    )
   )
   const snapshot = await getDocs(q)
   if (snapshot.empty) {
