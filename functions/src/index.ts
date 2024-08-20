@@ -29,6 +29,53 @@ exports.onUserDeleted = functions.auth.user().onDelete((user) => {
   const docpath = user.uid;
   return db.collection(colpath).doc(docpath).delete();
 });
+export const getApiKey = functions.https.onCall(async (_, context) => {
+  /** A callable function only executed when the user is logged in */
+  info("Getting ApiKey");
+  debug("Request data: ", context);
+  if (!context.auth) {
+    error("Not authenticated");
+    return {error: "Not authenticated"};
+  }
+  const db = admin.firestore();
+  const colpath = "users";
+  const docpath = context.auth?.uid;
+  const docref = db.collection(colpath).doc(docpath);
+  const doc = await docref.get();
+  if (doc.exists && doc.data() && doc.data()?.apiKey) {
+    info("ApiKey found and sent to client");
+    return {apiKey: doc.data()?.apiKey};
+  } else {
+    const apiKey = genKey.generateApiKey();
+    await docref.set({apiKey: apiKey});
+    info("ApiKey set and sent to client");
+    return {apiKey: apiKey};
+  }
+});
+export const rotateApiKey = functions.https.onCall(async (_, context) => {
+  /** A callable function only executed when the user is logged in */
+  info("Rotating ApiKey");
+  debug("Request data: ", context);
+  if (!context.auth) {
+    error("Not authenticated");
+    return {error: "Not authenticated"};
+  }
+  const db = admin.firestore();
+  const colpath = "users";
+  const docpath = context.auth?.uid;
+  const docref = db.collection(colpath).doc(docpath);
+  const doc = await docref.get();
+  if (doc.exists && doc.data() && doc.data()?.apiKey) {
+    const apiKey = genKey.generateApiKey();
+    await docref.update({apiKey: apiKey});
+    info("ApiKey rotated and sent to client");
+    return {apiKey: apiKey};
+  } else {
+    await docref.set({apiKey: genKey.generateApiKey()});
+    info("ApiKey set and sent to client");
+    return {apiKey: doc.data()?.apiKey};
+  }
+});
 
 export const UpdateLeaderboardData = onSchedule("every day 00:00", async () => {
   info("Updating leaderboard data");
@@ -84,53 +131,6 @@ export const UpdateLeaderboardData = onSchedule("every day 00:00", async () => {
     info("Leaderboard data updated successfully");
   } catch (err) {
     error(err);
-  }
-});
-export const getApiKey = functions.https.onCall(async (_, context) => {
-  /** A callable function only executed when the user is logged in */
-  info("Getting ApiKey");
-  debug("Request data: ", context);
-  if (!context.auth) {
-    error("Not authenticated");
-    return {error: "Not authenticated"};
-  }
-  const db = admin.firestore();
-  const colpath = "users";
-  const docpath = context.auth?.uid;
-  const docref = db.collection(colpath).doc(docpath);
-  const doc = await docref.get();
-  if (doc.exists && doc.data() && doc.data()?.apiKey) {
-    info("ApiKey found and sent to client");
-    return {apiKey: doc.data()?.apiKey};
-  } else {
-    const apiKey = genKey.generateApiKey();
-    await docref.set({apiKey: apiKey});
-    info("ApiKey set and sent to client");
-    return {apiKey: apiKey};
-  }
-});
-export const rotateApiKey = functions.https.onCall(async (_, context) => {
-  /** A callable function only executed when the user is logged in */
-  info("Rotating ApiKey");
-  debug("Request data: ", context);
-  if (!context.auth) {
-    error("Not authenticated");
-    return {error: "Not authenticated"};
-  }
-  const db = admin.firestore();
-  const colpath = "users";
-  const docpath = context.auth?.uid;
-  const docref = db.collection(colpath).doc(docpath);
-  const doc = await docref.get();
-  if (doc.exists && doc.data() && doc.data()?.apiKey) {
-    const apiKey = genKey.generateApiKey();
-    await docref.update({apiKey: apiKey});
-    info("ApiKey rotated and sent to client");
-    return {apiKey: apiKey};
-  } else {
-    await docref.set({apiKey: genKey.generateApiKey()});
-    info("ApiKey set and sent to client");
-    return {apiKey: doc.data()?.apiKey};
   }
 });
 
