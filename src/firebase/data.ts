@@ -5,6 +5,8 @@
 // - A collection called `screentime`
 //   - Each document in the collection is keyed by the user's ID
 //   - Each document has a collection of days, which each have an array of events for that day
+// - A collection called 'leaderboard'
+//   -
 
 import { db } from './firebaseInit'
 import {
@@ -15,7 +17,10 @@ import {
   getDoc,
   getDocs,
   query,
-  where
+  where,
+  orderBy,
+  startAfter,
+  limit
 } from 'firebase/firestore/lite'
 import { getFunctions, httpsCallable } from 'firebase/functions'
 import type { ScreenTimeData, ScreenTimeSummary } from '@/types'
@@ -109,11 +114,28 @@ export async function getPublicScreenTimeData(
   return summaries
 }
 
-export async function getLeaderboard(): Promise<ScreenTimeSummary[]> {
-  // Returns the top 50 users by screen time in the current week
-  // This function could be cached for performance (underlying data changes ~hourly)
-  const dbRef = collection(db, 'leaderboard')
-  const snapshot = await getDocs(dbRef)
+export async function getLeaderboard(offset:number=0): Promise<ScreenTimeSummary[]> {
+  /**
+   * Fetches 50 docs ranked from the 'leaderboard' collection
+   * @param {number} offset - The offset for fetching the leaderboard.
+   */
+  // makes sure offset is in steps of 50 rounding down
+  offset = offset - (offset % 50)
+  const q = query(
+    collection(db, "leaderboard"),
+    orderBy('rank'),
+    limit(50),
+    startAfter(offset)
+  )
+ 
+  const snapshot = await getDocs(q)
+  if (snapshot.empty) {
+    return []
+  }
+  
+  /** docs in 'leaderboard' are ScreenTimeSummaryRanked type
+   *  still works since it's a superset of screenTimeSummary
+  */
   const leaderboard: ScreenTimeSummary[] = []
   snapshot.forEach((doc: any) => {
     leaderboard.push(doc.data())
