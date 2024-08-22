@@ -5,8 +5,14 @@
 // - A collection called `screentime`
 //   - Each document in the collection is keyed by the user's ID
 //   - Each document has a collection of days, which each have an array of events for that day
-// - A collection called 'leaderboard'
-//   -
+// - A collection called `leaderboard`
+//   - Each document in the collection points to a nested user collection
+//   - Each user collection has docs keyed by the ISO date of the data contained within.
+//   - Each user collection doc is of type `ScreenTimeSummaryRanked` which is just ScreenTimeSummary 
+//     with an extra rank field
+// - A collection called `users`
+//   - Each document is keyed by the user's uid
+//   - Each document contains an apikey
 
 import { db } from './firebaseInit'
 import {
