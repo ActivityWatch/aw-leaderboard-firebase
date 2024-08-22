@@ -124,4 +124,4 @@ export const defaultCategories: Category[] = [
   },
   // eslint-disable-next-line max-len
   {name: ["Comms", "Email"], rule: {type: "regex", regex: /Gmail|Thunderbird|mutt|alpine/gi}},
-];
+]
