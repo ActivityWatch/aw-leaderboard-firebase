@@ -148,24 +148,27 @@ export async function getLeaderboard(offset:number=0): Promise<ScreenTimeSummary
   })
   return leaderboard
 }
-
-export async function getApiKey(userId: string): Promise<string | null> {
-  const docRef = doc(db, 'users', userId)
-  const docSnap = await getDoc(docRef)
-  if (docSnap.exists()) {
-    return docSnap.data().apiKey
-  } else {
-    console.log('No apikey found')
-    return null
-  }
-}
-
 interface ApiResponse {
   apiKey: string
 }
 
+export async function getApiKey(userId: string): Promise<string | null> {
+  // invoke a callable function to get the user's apikey
+  // this function is defined in functions/src/index.ts
+  const getApiKeyCallable = httpsCallable(functions, 'getApiKey')
+  const key = getApiKeyCallable({ userId: userId })
+    .then((result) =>{
+      return (result.data as ApiResponse)?.apiKey
+    })
+    .catch((error) => {
+      console.error(error)
+      return null
+    })
+  return key
+}
+
 export async function rotateKey(userId: string): Promise<string | null> {
-  // invoke a callable function to rotate the user's api key
+  // invoke a callable function to rotate the user's apikey
   // this function is defined in functions/src/index.ts
   const rotateApiKey = httpsCallable(functions, 'rotateApiKey')
   const key = rotateApiKey({ userId: userId })
