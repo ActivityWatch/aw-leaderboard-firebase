@@ -20,7 +20,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed, type ComputedRef } from 'vue'
 import { useLeaderboardStore } from '@/stores/leaderboard'
 import { type ScreenTimeSummary } from '@/types'
 import AWLHeader from '@/components/Header.vue'
@@ -36,8 +36,9 @@ onMounted(async () => {
   try {
     const { fetchLeaderboardData, leaderboardData } = useLeaderboardStore()
     fetchLeaderboardData()
-    leaderboardData?.sort((a, b) => b.total - a.total)
-    entries.value = leaderboardData
+    const leaderboardDataRef: ComputedRef = computed(() => leaderboardData)
+    leaderboardDataRef.value.sort((a: { total: number }, b: { total: number }) => b.total - a.total)
+    entries.value = leaderboardDataRef.value
   } catch (error) {
     console.error(error)
   }
