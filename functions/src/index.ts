@@ -77,30 +77,34 @@ export const rotateApiKey = functions.https.onCall(async (_, context) => {
   }
 })
 
-export const UpdateLeaderboardData = onSchedule("every day 00:00", async () => {
+exports.updateLeaderboardData = functions.runWith({timeoutSeconds: 540, memory: "2GB"})
+.pubsub.schedule("every day 00:00").onRun(async () => {
   info("Updating leaderboard data")
   const db = admin.firestore()
   const batch = db.batch()
   const leaderboardColpath = "leaderboard"
   const screentimeColpath = "screentime"
 
-  // This is lightweight does not actually fetch the docs
-  const screentimeDocRefs = await db.collection(screentimeColpath)
-    .listDocuments()
+  // List all screentime document references
+  const screentimeDocRefs = await db.collection(screentimeColpath).listDocuments()
   const summariesMap = new Map<string, ScreenTimeSummary>()
   const totalsMap = new Map<string, number>()
-  for (const docRef of screentimeDocRefs) {
+
+  // Process documents in parallel
+  await Promise.all(screentimeDocRefs.map(async (docRef) => {
     const userId: string = docRef.id
-    const userDocRefs = await db
-      .collection(screentimeColpath + "/" + userId + "/" + userId)
-      .listDocuments()
+    const userDocRefs = await db.collection(`${screentimeColpath}/${userId}/${userId}`).listDocuments()
     const events: Event[] = []
-    for (const dayDocRef of userDocRefs) {
-      const dayDocData = (await dayDocRef.get()).data()
+
+    // Read user documents in parallel
+    const userDocs = await Promise.all(userDocRefs.map(dayDocRef => dayDocRef.get()))
+    userDocs.forEach(dayDoc => {
+      const dayDocData = dayDoc.data()
       if (dayDocData?.events) {
         events.push(...dayDocData.events)
       }
-    }
+    })
+
     const screenTimeData: ScreenTimeData = {
       userId,
       events,
@@ -110,28 +114,27 @@ export const UpdateLeaderboardData = onSchedule("every day 00:00", async () => {
     const summary = dataToSummary(screenTimeData)
     summariesMap.set(userId, summary)
     totalsMap.set(userId, summary.total)
-    const sorted = new Map(
-      [...summariesMap.entries()]
-        .sort((a, b) => b[1].total - a[1].total)
-    )
-    let rank = 1
-    for (const [userId, summary] of sorted) {
-      const rankedSummary: ScreenTimeSummaryRanked = {
-        ...summary,
-        rank: rank++,
-      }
-      batch.set(
-        db.collection(leaderboardColpath).doc(userId),
-        rankedSummary
-      )
+  }))
+
+  // Sort summaries map by total screen time
+  const sortedSummaries = new Map(
+    [...summariesMap.entries()].sort((a, b) => b[1].total - a[1].total)
+  )
+
+  // Update leaderboard with ranked summaries
+  let rank = 1
+  for (const [userId, summary] of sortedSummaries) {
+    const rankedSummary: ScreenTimeSummaryRanked = {
+      ...summary,
+      rank: rank++,
     }
+    batch.set(db.collection(leaderboardColpath).doc(userId), rankedSummary)
   }
-  try {
-    await batch.commit()
-    info("Leaderboard data updated successfully")
-  } catch (err) {
-    error(err)
-  }
+
+  // Commit batch
+  await batch.commit()
+  info("Leaderboard data updated successfully")
+  
 })
 
 exports.uploadData = onRequest(async (request, response) => {
@@ -225,6 +228,7 @@ exports.onUploadData = onObjectFinalized(
       promises.push(promise)
     }
     await Promise.all(promises)
+    // TODO: error handling
     await batch.commit()
     info("Data processed successfully")
   })
