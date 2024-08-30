@@ -22,4 +22,8 @@ export const db = getFirestore(app)
 export const auth = getAuth(app)
 export const analytics = getAnalytics(app)
 
+// connect to local emulator
+// connectAuthEmulator(auth, 'http://localhost:9099')
+// connectFirestoreEmulator(db, 'localhost', 8080)
+
 export default app
