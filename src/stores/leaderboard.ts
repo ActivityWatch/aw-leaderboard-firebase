@@ -13,8 +13,8 @@ export const useLeaderboardStore = defineStore('leaderboard', {
   },
   persist: true,
   actions: {
-    fetchLeaderboardData() {
-      getLeaderboard().then((data) => {
+    fetchLeaderboardData(offset:number = 0) {
+      getLeaderboard(offset).then((data) => {
         this.leaderboardData = data
       })
     },
