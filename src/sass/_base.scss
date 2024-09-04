@@ -1,0 +1,6 @@
+@include reset;
+
+body{
+    // font-size-- min = 14px max= 18px
+    font-size: clamp(1.4rem,calc(4vw + 1rem), 1.8rem);
+}
