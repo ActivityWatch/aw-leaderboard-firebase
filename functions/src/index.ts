@@ -213,7 +213,7 @@ exports.onUploadData = onObjectFinalized(
         .get()
         .then((doc) => {
           if (doc.exists) {
-            const events = doc.data()?.events as Event[]
+            const existingEvents = doc.data()?.events as Event[]
             events.push(...events)
             batch.update(doc.ref, {events: events})
           } else {
