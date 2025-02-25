@@ -35,7 +35,7 @@ const rotateKey = () => {
   setTimeout(() => {
     snackbarMessage.value = ''
   }, 3000)
-  snackbarMessage.value = 'ApiKey rotated'
+  snackbarMessage.value = 'API key rotated'
 }
 </script>
 
